@@ -1,2 +1,2 @@
-
-        pyautogui.click(x, y)
+            # if(j==4):
+            #     price = float(data_input);
