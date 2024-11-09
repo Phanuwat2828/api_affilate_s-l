@@ -101,6 +101,8 @@ def time_start():
         print(Info("info"),_+1)
         time.sleep(1)
     print(Info("info"),"Start!")
+def send_API(value):
+    pass
 
 def Read_Excel():
     try:
@@ -110,35 +112,55 @@ def Read_Excel():
         print(num_rows)
         for i in range(num_rows):
             price = 0;
+            data_send = {
+                "item_id":None,
+                "product_name":None,
+                "sale_price":None,
+                "discounted_price":None,
+                "discounted_percentage":None,
+                "picture_url":None,
+                "product_url":None,
+                "maximum commission_rate":None,
+                "commission":None,
+                "Seller Id":None,
+                "promo_link":None,
+                "promo_short_link":None,
+                "group":"Lazada"
+            }
             for j in range(len(header_data)):
                 data_input = str(read_excel[header_data[j]][i])
-                print(Info("info"),"[",i+1,": "+header_data[j]+" ] ",data_input);
+                data_send[header_data[j]] = data_input;
+                print(Info("info"),"[",i+1,": "+header_data[j]+" ] ",data_send[header_data[j]]);
                 if(j==3):
                     price = float(data_input);
                 if(j==7):
                     percentage_value = float(data_input.replace("%", ""))
-                    print(Info("info"),"[",i+1,": commission ] ",percentage_value/100*price);
+                    data_send["commission"] = percentage_value/100*price;
+                    print(Info("info"),"[",i+1,": commission ] ",data_send["commission"]);
+                
+
+        print(Info("info"),"Remove ",name_file)
+        os.remove(name_file)
     except FileNotFoundError as e:
-          print(Info("error"),e)
+        print(Info("info"),"Remove ",name_file)
+        os.remove(name_file)
+        print(Info("error"),e)
+
+def run_App():
+    time_start()
+    Get_chrome()
+    Click_component(image_to_find,5);
+    Click_component(parth_image+select[0],2);
+    Click_component(space_,2);
+    Mouse_scroll(25,700,5);
+    Click_component(select_product,2);
+    press_key('tab',1,1)
+    press_key('enter',1,1)
+    Click_component(get_link,2);
+    Click_component(export_link,2);
+    press_key('tab',1,8)
+    press_key('enter',1,1)
+    Read_Excel()
 
 
-
-
-time_start()
-Get_chrome()
-Click_component(image_to_find,5);
-Click_component(parth_image+select[0],2);
-Click_component(space_,2);
-Mouse_scroll(5,700,5);
-Click_component(select_product,2);
-press_key('tab',1,1)
-press_key('enter',1,1)
-Click_component(get_link,2);
-Click_component(export_link,2);
-press_key('tab',1,8)
-press_key('enter',1,1)
-Read_Excel()
-
-# def run_App():
-#     while(True):
-#         break;
+run_App();
