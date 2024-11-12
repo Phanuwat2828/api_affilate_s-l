@@ -7,8 +7,12 @@ import pyautogui
 import pyperclip
 import pandas as pd
 import os
+import requests
+import json
 
 parth_image = "./image/"
+id_product  = "1231231412"
+api_check_product = "http://api.openchinaapi.com/v1/lazada/products/"+id_product+"?nation=th"
 url = "https://adsense.lazada.co.th/index.htm#!/offer/product_offer"
 # ชื่อไฟล์ภาพที่ต้องการค้นหาบนหน้าจอ
 image_to_find = parth_image+"type.png"
@@ -113,19 +117,20 @@ def Read_Excel():
         for i in range(num_rows):
             price = 0;
             data_send = {
-                "item_id":None,
-                "product_name":None,
-                "sale_price":None,
-                "discounted_price":None,
-                "discounted_percentage":None,
-                "picture_url":None,
-                "product_url":None,
-                "maximum commission_rate":None,
-                "commission":None,
-                "Seller Id":None,
-                "promo_link":None,
-                "promo_short_link":None,
-                "group":"Lazada"
+                "item_id":None, #String
+                "product_name":None,#String
+                "sale_price":None, #Float
+                "discounted_price":None, #Float
+                "discounted_percentage":None, #String
+                "picture_url":None, #String
+                "product_url":None, #String
+                "maximum commission_rate":None, #String
+                "commission":None, #Float
+                "Seller Id":None, #String
+                "promo_link":None, #String
+                "promo_short_link":None, #String
+                "place":None, #String
+                "market":"Lazada" #String
             }
             for j in range(len(header_data)):
                 data_input = str(read_excel[header_data[j]][i])
@@ -137,14 +142,24 @@ def Read_Excel():
                     percentage_value = float(data_input.replace("%", ""))
                     data_send["commission"] = percentage_value/100*price;
                     print(Info("info"),"[",i+1,": commission ] ",data_send["commission"]);
-                
-
         print(Info("info"),"Remove ",name_file)
         os.remove(name_file)
     except FileNotFoundError as e:
         print(Info("info"),"Remove ",name_file)
         os.remove(name_file)
         print(Info("error"),e)
+
+def api_check(value):
+    url = "http://api.openchinaapi.com/v1/lazada/products/"+value+"?nation=th"
+    payload={}
+    headers = {
+        'Authorization':'Token ca7dfebc52c73cbbc88645bad1db57eafb68ef8f'
+    }
+    response = requests.request("GET", url, headers=headers, data=payload)
+    data = json.loads(response.text);
+    print(Info("info")+"Check Data");
+    return data['data']
+
 
 def run_App():
     time_start()
@@ -162,5 +177,4 @@ def run_App():
     press_key('enter',1,1)
     Read_Excel()
 
-
-run_App();
+# run_App();
