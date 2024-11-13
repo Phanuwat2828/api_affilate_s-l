@@ -107,7 +107,34 @@ def time_start():
     print(Info("info"),"Start!")
 def send_API(value):
     pass
+def sender_api(data):
+    # main
+    url_Api = "http://26.49.17.12:8080/0eea90b98ea1129c8f7c16af9bca09820d5564ac93678c9766000941f5444ade"
+    payload = {
+        "key":"5a3dec84301206e275f7ca7fa119796c8a5be05d100a2d23ba3a4f189876d03a",
+        "datas":data 
+    }
 
+    try:
+        response = requests.request("POST",url_Api,data=payload)
+        return response.status_code
+    except:
+        return {"status":404,"message":"POST API ERROR."}
+
+def sender_api_detail(data):
+    # main
+    url_Api = "http://26.49.17.12:8080/5564ac93678c9766000941f5444ade0eea90b98ea1129c8f7c16af9bca09820d"
+    payload = {
+        "key":"5a3dec84301206e275f7ca7fa119796c8a5be05d100a2d23ba3a4f189876d03a",
+        "datas":data 
+    }
+
+    try:
+        response = requests.request("POST",url_Api,data=payload)
+        return response.status_code
+    except:
+        return {"status":404,"message":"POST API ERROR."}
+    
 def Read_Excel():
     try:
         time.sleep(5)
@@ -142,6 +169,8 @@ def Read_Excel():
                     percentage_value = float(data_input.replace("%", ""))
                     data_send["commission"] = percentage_value/100*price;
                     print(Info("info"),"[",i+1,": commission ] ",data_send["commission"]);
+            # sender_api(json.dumps(data_send));
+            
         print(Info("info"),"Remove ",name_file)
         # os.remove(name_file)
     except FileNotFoundError as e:
@@ -176,5 +205,4 @@ def run_App():
     press_key('tab',1,8)
     press_key('enter',1,1)
     Read_Excel()
-
 # run_App();

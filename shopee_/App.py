@@ -55,6 +55,34 @@ def process_split(value):
     product_id = value.split('/')[4]  # แยกตาม '/' และเลือกตำแหน่งที่ 4
     print(Info("info")+"split ");
     return product_id
+
+def sender_api_main(data):
+    # main
+    url_Api = "http://26.49.17.12:8080/0eea90b98ea1129c8f7c16af9bca09820d5564ac93678c9766000941f5444ade"
+    payload = {
+        "key":"5a3dec84301206e275f7ca7fa119796c8a5be05d100a2d23ba3a4f189876d03a",
+        "datas":data 
+    }
+
+    try:
+        response = requests.request("POST",url_Api,data=payload)
+        return response.status_code
+    except:
+        return {"status":404,"message":"POST API ERROR."}
+def sender_api_detail(data):
+    # main
+    url_Api = "http://26.49.17.12:8080/5564ac93678c9766000941f5444ade0eea90b98ea1129c8f7c16af9bca09820d"
+    payload = {
+        "key":"5a3dec84301206e275f7ca7fa119796c8a5be05d100a2d23ba3a4f189876d03a",
+        "datas":data 
+    }
+
+    try:
+        response = requests.request("POST",url_Api,data=payload)
+        return response.status_code
+    except:
+        return {"status":404,"message":"POST API ERROR."}
+    
 def Read_csv():
     df = pd.read_csv(name_file)
     num_rows, num_columns = df.shape
@@ -76,11 +104,15 @@ def Read_csv():
         for j in range(len(header_csv)):
             data_input = str(df[header_csv[j]][i])
             data_send[head_key[header_csv[j]]] = data_input;
-            
-            if(j==7):
+             
+            if(j==7):    
                 data_send['shop_id'] = process_split(data_input);
                 print(Info("info"),i+1," :","รหัสร้านค้า","=",data_send['shop_id']);
             print(Info("info"),i+1," :",header_csv[j],"=",data_send[head_key[header_csv[j]]]);
+        data_detail = api_check(data_send[ "item_id"],data_send['shop_id']);
+        
+        # print( sender_api_main(json.dumps(data_send)))
+        print(sender_api_detail(json.dumps(data_detail['data'])));
              
              
 
@@ -94,11 +126,13 @@ def api_check(id_product,shop_id):
     data = json.loads(response.text);
     print(Info("info")+"Check Data");
     return data
- 
+  
 Read_csv();
 
 
+     
 
+   
 
 # http://api.openchinaapi.com/v1/shopee/products/23624785285/?shop_id=388007409&nation=th
 
