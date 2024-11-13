@@ -143,10 +143,10 @@ def Read_Excel():
                     data_send["commission"] = percentage_value/100*price;
                     print(Info("info"),"[",i+1,": commission ] ",data_send["commission"]);
         print(Info("info"),"Remove ",name_file)
-        os.remove(name_file)
+        # os.remove(name_file)
     except FileNotFoundError as e:
         print(Info("info"),"Remove ",name_file)
-        os.remove(name_file)
+        # os.remove(name_file)
         print(Info("error"),e)
 
 def api_check(value):

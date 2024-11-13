@@ -22,6 +22,7 @@ header_csv = [
     "ลิงก์สินค้า",
     "ลิงก์ข้อเสนอ"
 ]
+
 head_key = {
     "รหัสสินค้า":"item_id",
     "ชื่อสินค้า":"product_name",
@@ -33,6 +34,7 @@ head_key = {
     "ลิงก์สินค้า":"product_url",
     "ลิงก์ข้อเสนอ":"promo_link"
 }
+
 def Timer_():
     current_time = datetime.now()
     formatted_time = current_time.strftime("[%H:%M:%S]")
@@ -46,8 +48,13 @@ def Info(type):
         valueinfo+=" [WARNING] :"
     elif(type=="error"):
         valueinfo+=" [ERROR] :"
+
     return valueinfo
 
+def process_split(value):
+    product_id = value.split('/')[4]  # แยกตาม '/' และเลือกตำแหน่งที่ 4
+    print(Info("info")+"split ");
+    return product_id
 def Read_csv():
     df = pd.read_csv(name_file)
     num_rows, num_columns = df.shape
@@ -63,19 +70,22 @@ def Read_csv():
             "commission":None, #Float
             "promo_link":None, #String
             "place":None, #String
+            "shop_id":None,#String
             "market":"Shopee" #String
         }
         for j in range(len(header_csv)):
-             data_input = str(df[header_csv[j]][i])
-             data_send[head_key[header_csv[j]]] = data_input;
+            data_input = str(df[header_csv[j]][i])
+            data_send[head_key[header_csv[j]]] = data_input;
+            
+            if(j==7):
+                data_send['shop_id'] = process_split(data_input);
+                print(Info("info"),i+1," :","รหัสร้านค้า","=",data_send['shop_id']);
+            print(Info("info"),i+1," :",header_csv[j],"=",data_send[head_key[header_csv[j]]]);
+             
+             
 
-             print(Info("info"),i+1," :",header_csv[j],"=",data_send[head_key[header_csv[j]]]);
-
-
-
-
-def api_check(value):
-    url = "http://api.openchinaapi.com/v1/shopee/products/"+value+"?nation=th"
+def api_check(id_product,shop_id):
+    url = "http://api.openchinaapi.com/v1/shopee/products/"+id_product+"/?shop_id="+shop_id+"&nation=th"
     payload={}
     headers = {
         'Authorization':'Token ca7dfebc52c73cbbc88645bad1db57eafb68ef8f'
@@ -85,6 +95,16 @@ def api_check(value):
     print(Info("info")+"Check Data");
     return data
  
-# Read_csv();
+Read_csv();
 
-print(api_check("13457251239"));
+
+
+
+# http://api.openchinaapi.com/v1/shopee/products/23624785285/?shop_id=388007409&nation=th
+
+# ลองแบบนี้นะครับว่าได้ไหมครับ
+
+# http://api.openchinaapi.com/v1/shopee/products/ใส่ตัวหลัง/?shop_id=ใส่ตัวหน้า&nation=th
+
+# https://shopee.co.th/product/388007409(ตัวหน้า)/23624785285(ตัวหลัง)
+# api.openchinaapi.com
