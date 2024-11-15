@@ -76,7 +76,7 @@ def sender_api_detail(data):
         "key":"5a3dec84301206e275f7ca7fa119796c8a5be05d100a2d23ba3a4f189876d03a",
         "datas":data 
     }
-
+    
     try:
         response = requests.request("POST",url_Api,data=payload)
         return response.status_code

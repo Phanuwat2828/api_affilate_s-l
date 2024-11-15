@@ -19,6 +19,7 @@ image_to_find = parth_image+"type.png"
 select_product = parth_image+"select_all.png"
 get_link = parth_image+"getlink_.png"
 export_link = parth_image+"export_.png"
+product_image = parth_image+"product_image.png"
 path_file = os.getcwd();
 name_file = path_file+"\download\data_promo_list.xlsx";
 space_ = parth_image+"space.png"
@@ -36,6 +37,21 @@ header_data = [
     "promo_short_link"
 ]
 
+# item_id:{type:String},
+# product_name:{type:String},
+#     sale_price:{type:Number},
+#     discounted_price:{type:Number},
+#     discounted_percentage:{type:String},
+#     picture_url:{type:String},
+#     product_url:{type:String},
+#     maximum_commission_rate:{type:String},
+#     commission:{type:Number},
+#     Seller_Id:{type:String},
+#     promo_link:{type:String},
+#     promo_short_link:{type:String},
+#     address:{type:String},
+#     group:{type:String},
+#     market:{type:String}
 select = [
     "mother_baby.png",
     "beauty.png"
@@ -65,13 +81,16 @@ def Click_component(image,delay):
             x, y = pyautogui.center(location)
             # คลิกที่ตำแหน่งของภาพ
             pyautogui.click(x, y)
+            return True
             print(Info("info"),f"คลิกที่ตำแหน่ง: ({x}, {y})",image)
         else:
             print(Info("warning"),"ไม่พบภาพบนหน้าจอ")
+            return False
     except FileNotFoundError as e:
         print(Info("error"),e)
     except pyautogui.ImageNotFoundException as e:
         print(Info("error"),"ไม่พบภาพบนหน้าจอ")
+        return False
 
 def press_key(value,delay,time_):
     try:
@@ -128,7 +147,6 @@ def sender_api_detail(data):
         "key":"5a3dec84301206e275f7ca7fa119796c8a5be05d100a2d23ba3a4f189876d03a",
         "datas":data 
     }
-
     try:
         response = requests.request("POST",url_Api,data=payload)
         return response.status_code
@@ -138,10 +156,10 @@ def sender_api_detail(data):
 def Read_Excel():
     try:
         time.sleep(5)
-        read_excel = pd.read_excel(name_file);
+        read_excel = pd.read_excel(name_file); # Path Excel
         num_rows, num_columns = read_excel.shape
         print(num_rows)
-        for i in range(num_rows):
+        for i in range(2):
             price = 0;
             data_send = {
                 "item_id":None, #String
@@ -157,25 +175,33 @@ def Read_Excel():
                 "promo_link":None, #String
                 "promo_short_link":None, #String
                 "place":None, #String
+                "group":None, #String
                 "market":"Lazada" #String
             }
             for j in range(len(header_data)):
                 data_input = str(read_excel[header_data[j]][i])
                 data_send[header_data[j]] = data_input;
-                print(Info("info"),"[",i+1,": "+header_data[j]+" ] ",data_send[header_data[j]]);
+                # if(j==0):
+                #     data_api = api_check(data_input)
+                #     print(data_api['shop_info'])
                 if(j==3):
-                    price = float(data_input);
+                    price = float(data_input);  
+                if(j==4):
+                    pass
+                    discount_rate = data_send["discounted_percentage"].replace("-", "").replace("%", "") 
+                    data_send["discounted_percentage"] = float(discount_rate);
                 if(j==7):
-                    percentage_value = float(data_input.replace("%", ""))
-                    data_send["commission"] = percentage_value/100*price;
+                    data_send["maximum commission_rate"] = float(data_input.replace("%", ""));
+                    data_send["commission"] = data_send["maximum commission_rate"]/100*price;
                     print(Info("info"),"[",i+1,": commission ] ",data_send["commission"]);
+                print(Info("info"),"[",i+1,": "+header_data[j]+" ] ",data_send[header_data[j]]);
             # sender_api(json.dumps(data_send));
             
         print(Info("info"),"Remove ",name_file)
-        # os.remove(name_file)
+        os.remove(name_file)
     except FileNotFoundError as e:
         print(Info("info"),"Remove ",name_file)
-        # os.remove(name_file)
+        os.remove(name_file)
         print(Info("error"),e)
 
 def api_check(value):
@@ -185,24 +211,40 @@ def api_check(value):
         'Authorization':'Token ca7dfebc52c73cbbc88645bad1db57eafb68ef8f'
     }
     response = requests.request("GET", url, headers=headers, data=payload)
-    data = json.loads(response.text);
-    print(Info("info")+"Check Data");
-    return data['data']
+    if(response.status_code == 200):
+        data = json.loads(response.text);
+        print(Info("info")+"Check Data");
+        return data['data']
+    else:
+        print("Error",response.status_code);
 
 
 def run_App():
     time_start()
-    Get_chrome()
-    Click_component(image_to_find,5);
-    Click_component(parth_image+select[0],2);
     Click_component(space_,2);
-    Mouse_scroll(25,700,5);
-    Click_component(select_product,2);
-    press_key('tab',1,1)
-    press_key('enter',1,1)
-    Click_component(get_link,2);
-    Click_component(export_link,2);
-    press_key('tab',1,8)
-    press_key('enter',1,1)
-    Read_Excel()
-# run_App();
+    product_total = 0;
+    is_product = 1000;
+    while(product_total<is_product):
+        first = False;
+        count_product = 0;
+        while(count_product<200):
+            if(first):
+                Mouse_scroll(1,550,5);
+            else:
+                Mouse_scroll(1,250,5);
+                first = True;
+            for i in range(4):
+                status_click = Click_component(product_image,1)
+                if(status_click):
+                    count_product+=1;
+                    product_total+=1;
+            print(Info("info")+"Excel Max[200]: Now ",count_product);
+            print(Info("info")+"Product_Total Max[",is_product,"]: Now ",product_total);
+        Click_component(get_link,2);
+        Click_component(export_link,2);
+        press_key('tab',1,8)
+        press_key('enter',1,1)
+        Read_Excel()
+
+
+
