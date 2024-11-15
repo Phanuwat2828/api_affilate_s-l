@@ -159,7 +159,7 @@ def Read_Excel():
         read_excel = pd.read_excel(name_file); # Path Excel
         num_rows, num_columns = read_excel.shape
         print(num_rows)
-        for i in range(2):
+        for i in range(num_rows):
             price = 0;
             data_send = {
                 "item_id":None, #String
@@ -223,7 +223,7 @@ def run_App():
     time_start()
     Click_component(space_,2);
     product_total = 0;
-    is_product = 1000;
+    is_product = 500;
     while(product_total<is_product):
         first = False;
         count_product = 0;
@@ -238,13 +238,16 @@ def run_App():
                 if(status_click):
                     count_product+=1;
                     product_total+=1;
+                if(count_product>=200 and product_total>=is_product):
+                    break;
             print(Info("info")+"Excel Max[200]: Now ",count_product);
-            print(Info("info")+"Product_Total Max[",is_product,"]: Now ",product_total);
+            print(Info("info")+"Product_Total Max[",is_product,"]:",product_total);
+            if(product_total>=is_product):
+                break;
         Click_component(get_link,2);
         Click_component(export_link,2);
         press_key('tab',1,8)
         press_key('enter',1,1)
         Read_Excel()
-
-
+run_App()
 
