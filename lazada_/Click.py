@@ -54,6 +54,9 @@ class Click:
     
     def time_start():
         for _ in range(0,3):
+            if not Data.is_run:
+                print(log.Info("info") + "Process stopped by user.")
+                return
             print(log.Info("info"),_+1)
             time.sleep(1)
         print(log.Info("info"),"Start!")

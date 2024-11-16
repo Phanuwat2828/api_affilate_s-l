@@ -9,12 +9,12 @@ class Api:
             "key":"5a3dec84301206e275f7ca7fa119796c8a5be05d100a2d23ba3a4f189876d03a",
             "datas":data 
         }
-
         try:
             response = requests.request("POST",url_Api,data=payload)
+            print(log.Info("info")+"Send Main");
             return response.status_code
         except:
-            return {"status":404,"message":"POST API ERROR."}
+            return response.status_code
         
     def send_api_detail(data):
         # main
@@ -25,11 +25,12 @@ class Api:
         }
         try:
             response = requests.request("POST",url_Api,data=payload)
+            print(log.Info("info")+"Send Detail");
             return response.status_code
         except:
-            return {"status":404,"message":"POST API ERROR."}
+            return response.status_code
 
-    def api_check(value):
+    def api_detail(value):
         url = "http://api.openchinaapi.com/v1/lazada/products/"+value+"?nation=th"
         payload={}
         headers = {
@@ -38,7 +39,7 @@ class Api:
         response = requests.request("GET", url, headers=headers, data=payload)
         if(response.status_code == 200):
             data = json.loads(response.text);
-            print(log.Info("info")+"Check Data");
+            print(log.Info("info")+"Data Detail");
             return data['data']
         else:
             print("Error",response.status_code);

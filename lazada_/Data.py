@@ -15,14 +15,16 @@ import os
 # group:{type:String},
 # market:{type:String}
 class Data:
+    first = True
     count_product = 0;
     product_total = 0;
-    is_product = 5000;
+    is_product = 0;
+    api_conf = 0;
+    options_ = []
     group = "Test"
     is_run = False
     parth_image = "./image/"
     url = "https://adsense.lazada.co.th/index.htm#!/offer/product_offer"
-    # ชื่อไฟล์ภาพที่ต้องการค้นหาบนหน้าจอ
     image_to_find = parth_image+"type.png"
     select_product = parth_image+"select_all.png"
     get_link = parth_image+"getlink_.png"
