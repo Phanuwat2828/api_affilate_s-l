@@ -1,253 +1,53 @@
 # version 0.0.2
-
-import pyautogui
-import time
-from datetime import datetime
-import pyautogui
-import pyperclip
-import pandas as pd
-import os
-import requests
-import json
-
-parth_image = "./image/"
-id_product  = "1231231412"
-api_check_product = "http://api.openchinaapi.com/v1/lazada/products/"+id_product+"?nation=th"
-url = "https://adsense.lazada.co.th/index.htm#!/offer/product_offer"
-# ชื่อไฟล์ภาพที่ต้องการค้นหาบนหน้าจอ
-image_to_find = parth_image+"type.png"
-select_product = parth_image+"select_all.png"
-get_link = parth_image+"getlink_.png"
-export_link = parth_image+"export_.png"
-product_image = parth_image+"product_image.png"
-path_file = os.getcwd();
-name_file = path_file+"\download\data_promo_list.xlsx";
-space_ = parth_image+"space.png"
-header_data = [
-    "item_id",
-    "product_name",
-    "sale_price",
-    "discounted_price",
-    "discounted_percentage",
-    "picture_url",
-    "product_url",
-    "maximum commission_rate",
-    "Seller Id",
-    "promo_link",
-    "promo_short_link"
-]
-
-# item_id:{type:String},
-# product_name:{type:String},
-#     sale_price:{type:Number},
-#     discounted_price:{type:Number},
-#     discounted_percentage:{type:String},
-#     picture_url:{type:String},
-#     product_url:{type:String},
-#     maximum_commission_rate:{type:String},
-#     commission:{type:Number},
-#     Seller_Id:{type:String},
-#     promo_link:{type:String},
-#     promo_short_link:{type:String},
-#     address:{type:String},
-#     group:{type:String},
-#     market:{type:String}
-select = [
-    "mother_baby.png",
-    "beauty.png"
-]
-# จำนวนครั้งที่ต้องการคลิก
-def Timer_():
-    current_time = datetime.now()
-    formatted_time = current_time.strftime("[%H:%M:%S]")
-    return formatted_time
-
-def Info(type):
-    valueinfo = Timer_()
-    if(type=="info"):
-        valueinfo+=" [INFO] :"
-    elif(type=="warning"):
-        valueinfo+=" [WARNING] :"
-    elif(type=="error"):
-        valueinfo+=" [ERROR] :"
-    return valueinfo
-
-def Click_component(image,delay):
-    try:
-        time.sleep(delay)
-        location = pyautogui.locateOnScreen(image, confidence=0.6)  # ค่า confidence ปรับได้เพื่อให้แม่นยำมากขึ้น
-        if location:
-            # หาใจกลางของภาพที่พบ
-            x, y = pyautogui.center(location)
-            # คลิกที่ตำแหน่งของภาพ
-            pyautogui.click(x, y)
-            return True
-            print(Info("info"),f"คลิกที่ตำแหน่ง: ({x}, {y})",image)
-        else:
-            print(Info("warning"),"ไม่พบภาพบนหน้าจอ")
-            return False
-    except FileNotFoundError as e:
-        print(Info("error"),e)
-    except pyautogui.ImageNotFoundException as e:
-        print(Info("error"),"ไม่พบภาพบนหน้าจอ")
-        return False
-
-def press_key(value,delay,time_):
-    try:
-        for _ in range(0,time_):
-            pyautogui.press(value)
-            time.sleep(delay)
-            
-            print(Info("info"),"Press "+value," time ",(_+1));
-        print(Info("info"),value+" Finish!");
-    except Exception as e:
-        print(Info("error"),e)
-
-def Mouse_scroll(time_,value,delay):
-    for _ in range(0,time_):
-        pyautogui.scroll(-value)
-        time.sleep(delay)
-        print(Info("info"),"Scroll -",value," time ",(_+1));
-    print(Info("info"),"Scroll Finish!");
-
-def Get_chrome():
-    time.sleep(3)
-    pyperclip.copy(url);
-    pyautogui.hotkey('ctrl', 't')
-    time.sleep(3)
-    pyautogui.hotkey('ctrl','v')
-    press_key('enter',1,3)
-    print(Info("info"),"Get_Chrome Finish")
-
-def time_start():
-    for _ in range(0,3):
-        print(Info("info"),_+1)
-        time.sleep(1)
-    print(Info("info"),"Start!")
-def send_API(value):
-    pass
-def sender_api(data):
-    # main
-    url_Api = "http://26.49.17.12:8080/0eea90b98ea1129c8f7c16af9bca09820d5564ac93678c9766000941f5444ade"
-    payload = {
-        "key":"5a3dec84301206e275f7ca7fa119796c8a5be05d100a2d23ba3a4f189876d03a",
-        "datas":data 
-    }
-
-    try:
-        response = requests.request("POST",url_Api,data=payload)
-        return response.status_code
-    except:
-        return {"status":404,"message":"POST API ERROR."}
-
-def sender_api_detail(data):
-    # main
-    url_Api = "http://26.49.17.12:8080/5564ac93678c9766000941f5444ade0eea90b98ea1129c8f7c16af9bca09820d"
-    payload = {
-        "key":"5a3dec84301206e275f7ca7fa119796c8a5be05d100a2d23ba3a4f189876d03a",
-        "datas":data 
-    }
-    try:
-        response = requests.request("POST",url_Api,data=payload)
-        return response.status_code
-    except:
-        return {"status":404,"message":"POST API ERROR."}
-    
-def Read_Excel():
-    try:
-        time.sleep(5)
-        read_excel = pd.read_excel(name_file); # Path Excel
-        num_rows, num_columns = read_excel.shape
-        print(num_rows)
-        for i in range(num_rows):
-            price = 0;
-            data_send = {
-                "item_id":None, #String
-                "product_name":None,#String
-                "sale_price":None, #Float
-                "discounted_price":None, #Float
-                "discounted_percentage":None, #String
-                "picture_url":None, #String
-                "product_url":None, #String
-                "maximum commission_rate":None, #String
-                "commission":None, #Float
-                "Seller Id":None, #String
-                "promo_link":None, #String
-                "promo_short_link":None, #String
-                "place":None, #String
-                "group":None, #String
-                "market":"Lazada" #String
-            }
-            for j in range(len(header_data)):
-                data_input = str(read_excel[header_data[j]][i])
-                data_send[header_data[j]] = data_input;
-                # if(j==0):
-                #     data_api = api_check(data_input)
-                #     print(data_api['shop_info'])
-                if(j==3):
-                    price = float(data_input);  
-                if(j==4):
-                    pass
-                    discount_rate = data_send["discounted_percentage"].replace("-", "").replace("%", "") 
-                    data_send["discounted_percentage"] = float(discount_rate);
-                if(j==7):
-                    data_send["maximum commission_rate"] = float(data_input.replace("%", ""));
-                    data_send["commission"] = data_send["maximum commission_rate"]/100*price;
-                    print(Info("info"),"[",i+1,": commission ] ",data_send["commission"]);
-                print(Info("info"),"[",i+1,": "+header_data[j]+" ] ",data_send[header_data[j]]);
-            # sender_api(json.dumps(data_send));
-            
-        print(Info("info"),"Remove ",name_file)
-        os.remove(name_file)
-    except FileNotFoundError as e:
-        print(Info("info"),"Remove ",name_file)
-        os.remove(name_file)
-        print(Info("error"),e)
-
-def api_check(value):
-    url = "http://api.openchinaapi.com/v1/lazada/products/"+value+"?nation=th"
-    payload={}
-    headers = {
-        'Authorization':'Token ca7dfebc52c73cbbc88645bad1db57eafb68ef8f'
-    }
-    response = requests.request("GET", url, headers=headers, data=payload)
-    if(response.status_code == 200):
-        data = json.loads(response.text);
-        print(Info("info")+"Check Data");
-        return data['data']
-    else:
-        print("Error",response.status_code);
+import tkinter as tk
+from Api import Api as api
+from Click import Click as click
+from Data import Data as data
+from Info import Info as log
+from Read_file import Read_file as read_file
 
 
 def run_App():
-    time_start()
-    Click_component(space_,2);
-    product_total = 0;
-    is_product = 500;
-    while(product_total<is_product):
+    click.time_start()
+    click.Click_component(data.space_,2);
+    while(data.product_total<data.is_product):
         first = False;
-        count_product = 0;
-        while(count_product<200):
+        while(data.count_product<200):
             if(first):
-                Mouse_scroll(1,550,5);
+                click.Mouse_scroll(1,550,5);
             else:
-                Mouse_scroll(1,250,5);
+                click.Mouse_scroll(1,250,5);
                 first = True;
             for i in range(4):
-                status_click = Click_component(product_image,1)
+                status_click = click.Click_component(data.product_image,1)
                 if(status_click):
                     count_product+=1;
                     product_total+=1;
-                if(count_product>=200 and product_total>=is_product):
+                if(data.count_product>=200 and data.product_total>=data.is_product):
                     break;
-            print(Info("info")+"Excel Max[200]: Now ",count_product);
-            print(Info("info")+"Product_Total Max[",is_product,"]:",product_total);
-            if(product_total>=is_product):
+            print(log.Info("info")+"Excel Max[200]: Now ",data.count_product);
+            print(log.Info("info")+"Product_Total Max[",data.is_product,"]:",data.product_total);
+            if(data.product_total>=data.is_product):
                 break;
-        Click_component(get_link,2);
-        Click_component(export_link,2);
-        press_key('tab',1,8)
-        press_key('enter',1,1)
-        Read_Excel()
-run_App()
+        click.Click_component(data.get_link,2);
+        click.Click_component(data.export_link,2);
+        click.press_key('tab',1,8)
+        click.press_key('enter',1,1)
+        read_file.Read_Excel()
 
+# Gui 
+root = tk.Tk()
+root.title("Affiliate Lazada")
+def toggle():
+    if data.is_run:
+        print("หยุดแล้ว!")
+        start_stop_button.config(text="Start", bg="green", fg="white")
+    else:
+        print("เริ่มต้นแล้ว!")  
+        start_stop_button.config(text="Stop", bg="red", fg="white")  
+    data.is_run = not data.is_run
+
+start_stop_button = tk.Button(root, text="Start", command=toggle,width=10, height=2, bg="green", fg="white",font=("Helvetica", 16, "bold"))
+start_stop_button.place(x=20, y=20)
+root.geometry("570x1000-0+0")
+root.mainloop()
