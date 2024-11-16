@@ -34,7 +34,7 @@ class Read_file:
                 }
                 status_main = 0;
                 status_detail = 0;
-                data_api;
+                # data_api;
                 for j in range(len(Data.header_data)):
                     data_input = str(read_excel[Data.header_data[j]][i])
                     data_send[Data.header_data[j]] = data_input;

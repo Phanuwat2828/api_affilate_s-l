@@ -100,12 +100,18 @@ def on_submit():
 def toggle():
     label_Now.config(text="จำนวณสินค้าทั้งหมดตอนนี้ : "+str(data.product_total))
     if data.is_run:
+        data.count_product = 0;
+        data.product_total = 0;
+        data.is_product = 0;
+        data.api_conf = 0;
         data.is_run = False
+        update_labels()
         start_stop_button.config(text="Start", bg="green", fg="white")
     else:
         data.is_run = True
         start_stop_button.config(text="Stop", bg="red", fg="white") 
         on_submit();
+        update_labels()
         thread = threading.Thread(target=run_App)
         thread.daemon = True  # ให้เธรดหยุดเมื่อปิดโปรแกรม
         thread.start()
@@ -115,8 +121,7 @@ def on_select(event):
     print(log.Info('info'),"Selected "+data.selected_option)
    
 combo = ttk.Combobox(root, values=data.options, state="readonly")
-combo.place(x=318, y=84, width=200)
-combo.pack(padx=20, pady=20)
+combo.place(x=270, y=64, width=200)
 combo.set("เลือกตัวเลือก")
 combo.bind("<<ComboboxSelected>>", on_select) #add even
 
@@ -126,7 +131,7 @@ start_stop_button.place(x=20, y=20)
 label_entry = tk.Label(root, text="ป้อนจำนวณสินค้า :",font=("Helvetica", 13))
 label_entry.place(x=180, y=20)
 label_entry = tk.Label(root, text="เลือกกลุ่ม :",font=("Helvetica", 13))
-label_entry.place(x=180, y=80)
+label_entry.place(x=180, y=60)
 entry = tk.Entry(root, width=20,textvariable=entry_var)
 entry.place(x=318,y=24)
 
