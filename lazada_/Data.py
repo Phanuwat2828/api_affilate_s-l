@@ -30,6 +30,7 @@ class Data:
     get_link = parth_image+"getlink_.png"
     export_link = parth_image+"export_.png"
     product_image = parth_image+"product_image.png"
+    product_image1 = parth_image+"product_image2.png"
     path_file = os.getcwd();
     name_file = path_file+"\download\data_promo_list.xlsx";
     space_ = parth_image+"space.png"

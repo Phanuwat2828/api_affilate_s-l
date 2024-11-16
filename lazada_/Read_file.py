@@ -11,7 +11,6 @@ class Read_file:
             time.sleep(5)
             read_excel = pd.read_excel(Data.name_file); # Path Excel
             num_rows, num_columns = read_excel.shape
-            print(num_rows)
             for i in range(num_rows):
                 price = 0;
                 data_send = {
@@ -58,8 +57,9 @@ class Read_file:
                     if(j==7):
                         data_send["maximum commission_rate"] = float(data_input.replace("%", ""));
                         data_send["commission"] = data_send["maximum commission_rate"]/100*price;
-                        print(log.Info("info"),"[",i+1,": commission ] ",data_send["commission"]);
-                    print(log.Info("info"),"[",i+1,": "+Data.header_data[j]+" ] ",data_send[Data.header_data[j]]);
+                        # print(log.Info("info"),"[",i+1,": commission ] ",data_send["commission"]);
+                    # print(log.Info("info"),"[",i+1,": "+Data.header_data[j]+" ] ",data_send[Data.header_data[j]]);
+                print(log.Info("info")+"Read product [",i+1,"]")
                 # status_main = api.send_api_main(json.dumps(data_send))
                 # if(status_main!=200):
                 #     print(log.Info("Error"),status_main)
@@ -72,10 +72,10 @@ class Read_file:
                     
                 # sender_api(json.dumps(data_send));
             
-            print(log.Info("info"),"Remove ",Data.name_file)
+            print(log.Info("info"),"Remove File",Data.name_file)
             os.remove(Data.name_file)
         except FileNotFoundError as e:
-            print(log.Info("info"),"Remove ",Data.name_file)
+            print(log.Info("info"),"Remove File",Data.name_file)
             os.remove(Data.name_file)
             print(log.Info("error"),e)
         

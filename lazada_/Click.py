@@ -3,19 +3,22 @@ import pyperclip
 import time
 from Info import Info as log
 from Data import Data
-class Click:
 
-    def Click_component(image,delay):
+class Click:
+    def Click_component(image,delay,confidence):
         try:
             time.sleep(delay)
-            location = pyautogui.locateOnScreen(image, confidence=0.6)  # ค่า confidence ปรับได้เพื่อให้แม่นยำมากขึ้น
+            location = pyautogui.locateOnScreen(image, confidence=confidence)  
             if location:
                 # หาใจกลางของภาพที่พบ
+                if not Data.is_run:
+                    print(log.Info("info") + "Process stopped by user.")
+                    return
                 x, y = pyautogui.center(location)
                 # คลิกที่ตำแหน่งของภาพ
                 pyautogui.click(x, y)
-                return True
                 print(log.Info("info"),f"คลิกที่ตำแหน่ง: ({x}, {y})",image)
+                return True
             else:
                 print(log.Info("warning"),"ไม่พบภาพบนหน้าจอ")
                 return False
@@ -30,7 +33,9 @@ class Click:
             for _ in range(0,time_):
                 pyautogui.press(value)
                 time.sleep(delay)
-                
+                if not Data.is_run:
+                    print(log.Info("info") + "Process stopped by user.")
+                    return
                 print(log.Info("info"),"Press "+value," time ",(_+1));
             print(log.Info("info"),value+" Finish!");
         except Exception as e:
@@ -38,6 +43,9 @@ class Click:
 
     def Mouse_scroll(time_,value,delay):
         for _ in range(0,time_):
+            if not Data.is_run:
+                print(log.Info("info") + "Process stopped by user.")
+                return
             pyautogui.scroll(-value)
             time.sleep(delay)
             print(log.Info("info"),"Scroll -",value," time ",(_+1));
