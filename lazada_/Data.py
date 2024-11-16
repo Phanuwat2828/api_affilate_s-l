@@ -16,11 +16,11 @@ import os
 # market:{type:String}
 class Data:
     first = True
+    selected_option = 'อุปกรณ์-อิเล็กทรอนิกส์';
     count_product = 0;
     product_total = 0;
     is_product = 0;
     api_conf = 0;
-    options_ = []
     group = "Test"
     is_run = False
     parth_image = "./image/"
@@ -45,4 +45,17 @@ class Data:
         "Seller Id",
         "promo_link",
         "promo_short_link"
+    ]
+    options = [
+        'อุปกรณ์-อิเล็กทรอนิกส์',
+        'อุปกรณ์เสริม-อิเล็กทรอนิกส์',
+        'ทีวีและเครื่องใช้ในบ้าน',
+        'สุขภาพและความงาม',
+        'ทารกและของเล่น',
+        'ของชำและสัตว์เลี้ยง',
+        'บ้านและไลฟ์สไตล์',
+        'แฟชั่นและเครื่องประดับผู้หญิง',
+        'แฟชั่นและเครื่องประดับผู้ชาย',
+        'กีฬาและการเดินทาง',
+        'ยานยนต์และรถจักรยานยนต์',
     ]

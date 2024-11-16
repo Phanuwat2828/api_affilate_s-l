@@ -11,6 +11,7 @@ from Data import Data as data
 
 import threading
 import sys
+from tkinter import ttk
 
 
 
@@ -19,13 +20,13 @@ root = tk.Tk()
 root.title("Affiliate Lazada")
 label_api_conf  = tk.Label(root, text="จำนวณสินค้าที่ส่งไปแล้ว api confirm : "+str(data.api_conf),font=(14))
 label_Excel= tk.Label(root, text="จำนวณสินค้าที่เลือกตอนนี้ : "+str(data.count_product),font=(14))
-label_api_conf.place(x=180,y=44)
-label_Excel.place(x=180,y=64)
+label_api_conf.place(x=20,y=144)
+label_Excel.place(x=20,y=164)
 label_Now = tk.Label(root, text="จำนวณสินค้าทั้งหมดตอนนี้ : "+str(data.product_total),font=(14))
-label_Now.place(x=180,y=84)
+label_Now.place(x=20,y=184)
 label_max = tk.Label(root, text="จำนวณสินค้าที่ต้องการ : "+str(data.is_product),font=(14))
-label_max.place(x=180,y=104)
-entry_var = tk.StringVar(value="0")
+label_max.place(x=20,y=204)
+entry_var = tk.StringVar(value="200")
 
 text_output = tk.Text(root, wrap="word", width=60, height=38, font=("Arial", 12))
 text_output.place(x=10,y=300)
@@ -109,15 +110,25 @@ def toggle():
         thread.daemon = True  # ให้เธรดหยุดเมื่อปิดโปรแกรม
         thread.start()
     
+def on_select(event):
+    data.selected_option = combo.get()
+    print(log.Info('info'),"Selected "+data.selected_option)
+   
+combo = ttk.Combobox(root, values=data.options, state="readonly")
+combo.place(x=318, y=84, width=200)
+combo.pack(padx=20, pady=20)
+combo.set("เลือกตัวเลือก")
+combo.bind("<<ComboboxSelected>>", on_select) #add even
 
 start_stop_button = tk.Button(root, text="Start", command=toggle,width=10, height=2, bg="green", fg="white",font=("Helvetica", 16, "bold"))
 start_stop_button.place(x=20, y=20)
 
-label_entry = tk.Label(root, text="ป้อนจำนวณสินค้า :",font=(14))
+label_entry = tk.Label(root, text="ป้อนจำนวณสินค้า :",font=("Helvetica", 13))
 label_entry.place(x=180, y=20)
-entry = tk.Entry(root, width=30,textvariable=entry_var)
-entry.place(x=308,y=24)
-
+label_entry = tk.Label(root, text="เลือกกลุ่ม :",font=("Helvetica", 13))
+label_entry.place(x=180, y=80)
+entry = tk.Entry(root, width=20,textvariable=entry_var)
+entry.place(x=318,y=24)
 
 root.geometry("570x1000-0+0")
 root.mainloop()
