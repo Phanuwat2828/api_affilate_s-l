@@ -34,12 +34,12 @@ class Api:
         url = "http://api.openchinaapi.com/v1/lazada/products/"+value+"?nation=th"
         payload={}
         headers = {
-            'Authorization':'Token '
+            'Authorization':'Token 5780d3ad5441aab79fd6bdc2de181d54c315fcb8'
         }
         response = requests.request("GET", url, headers=headers, data=payload)
         if(response.status_code == 200):
             data = json.loads(response.text);
             print(log.Info("info")+"Data Detail");
-            return data['data']
+            return data
         else:
             print("Error",response.status_code);

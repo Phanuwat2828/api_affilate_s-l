@@ -38,13 +38,9 @@ class Data:
         "item_id",
         "product_name",
         "sale_price",
-        "discounted_price",
-        "discounted_percentage",
         "picture_url",
         "product_url",
         "maximum commission_rate",
-        "Seller Id",
-        "promo_link",
         "promo_short_link"
     ]
     options = [
