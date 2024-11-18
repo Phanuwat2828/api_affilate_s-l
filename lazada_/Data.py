@@ -22,7 +22,8 @@ class Data:
     is_product = 0;
     api_conf = 0;
     group = "Test"
-    is_run = True
+    is_run = False
+    is_api = False
     parth_image = "./image/"
     url = "https://adsense.lazada.co.th/index.htm#!/offer/product_offer"
     image_to_find = parth_image+"type.png"

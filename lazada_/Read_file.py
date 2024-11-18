@@ -35,15 +35,16 @@ class Read_file:
                     data_send[Data.header_data[j]] = data_input;
                     if(Data.header_data[j]=="item_id"):
                         data_send["item_id"] = data_input;
-                        data_api = api.api_detail_shopee(data_input);
-                        status_detail = data_api['code']
-                        if(status_detail == 200): #status data_api 200
-                            data_send["group"] = Data.selected_option
-                            data_send["review"] = data_api["data"]["review_info"]["average_score"]
-                            data_send["address"] = data_api["data"]["delivery_info"]["area_from"]
-                        else:
-                            print(log.Info("Error"),status_detail)
-                            return
+                        if(Data.is_api):
+                            data_api = api.api_detail_shopee(data_input);
+                            status_detail = data_api['code']
+                            if(status_detail == 200): #status data_api 200
+                                data_send["group"] = Data.selected_option
+                                data_send["review"] = data_api["data"]["review_info"]["average_score"]
+                                data_send["address"] = data_api["data"]["delivery_info"]["area_from"]
+                            else:
+                                print(log.Info("Error"),status_detail)
+                                return
                     if(Data.header_data[j]=="product_name"):
                         data_send["product_name"] = data_input;
                     if(Data.header_data[j]=="sale_price"):
@@ -68,14 +69,15 @@ class Read_file:
                         print(log.Info("info"),"[",i+1,": address ] ",data_send["address"]);
                     # print(log.Info("info"),"[",i+1,": "+Data.header_data[j]+" ] ",data_send[Data.header_data[j]]);
                 print(log.Info("info")+"Read product [",i+1,"]")
-                status_main = api.send_api_main(json.dumps(data_send))
-                if(status_main!=200):
-                    print(log.Info("Error"),status_main)
-                    return 
-                status_detail = api.send_api_detail(json.dumps(data_api['data']));
-                if(status_detail!=200):
-                    print(log.Info("Error"),status_detail)
-                    return 
+                if(Data.is_api):
+                    status_main = api.send_api_main(json.dumps(data_send))
+                    if(status_main!=200):
+                        print(log.Info("Error"),status_main)
+                        return 
+                    status_detail = api.send_api_detail(json.dumps(data_api['data']));
+                    if(status_detail!=200):
+                        print(log.Info("Error"),status_detail)
+                        return 
                 Data.api_conf +=1;
                 # sender_api(json.dumps(data_send));
             print(log.Info("info"),"Remove File",Data.name_file)
