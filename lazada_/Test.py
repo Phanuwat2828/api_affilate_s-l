@@ -6,5 +6,7 @@ from Read_file import Read_file as read_file
 from Show_log import ConsoleRedirector as show_log
 
 
+data = read_file.file_shopee();
+print(len(data))
 
 

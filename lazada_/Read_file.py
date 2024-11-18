@@ -101,14 +101,16 @@ class Read_file:
                 for file in files:
                     return file
             else:
+                return "404"
                 print(log.Info("info")+"No files found in the folder.")
         else:
+            return "404"
             print(log.Info("info")+"Folder does not exist.")
 
     def Read_csv():
         try:
-            Data.name_file2 += Read_file.file_shopee()
-            df = pd.read_csv(Data.name_file2)
+            time.sleep(5)
+            df = pd.read_csv(Data.name_file2+Read_file.file_shopee())
             num_rows, num_columns = df.shape
             for i in range(num_rows):
                 data_send = {
@@ -134,11 +136,11 @@ class Read_file:
                     print(log.Info("info"),i+1," :",Data.header_csv[j],"=",data_send[Data.head_key[Data.header_csv[j]]]);
                 # data_detail = api.api_detail_shopee(data_send[ "item_id"],data_send['shop_id']);
                 # print( sender_api_main(json.dumps(data_send)))
-            print(log.Info("info"),"Remove File",Data.name_file2)
-            # os.remove(Data.name_file2)
+            print(log.Info("info"),"Remove File",Data.name_file2+Read_file.file_shopee())
+            os.remove(Data.name_file2+Read_file.file_shopee())
         except FileNotFoundError as e:
-            print(log.Info("info"),"Remove File",Data.name_file2)
-            # os.remove(Data.name_file2)
+            print(log.Info("info"),"Remove File",Data.name_file2+Read_file.file_shopee())
+            os.remove(Data.name_file2+Read_file.file_shopee())
             print(log.Info("error"),e)
     
 

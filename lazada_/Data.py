@@ -22,7 +22,7 @@ class Data:
     is_product = 0;
     api_conf = 0;
     group = "Test"
-    is_run = False
+    is_run = True
     is_api = False
     parth_image = "./image/"
     url = "https://adsense.lazada.co.th/index.htm#!/offer/product_offer"
@@ -65,6 +65,7 @@ class Data:
     change_page_shopee = parth_image+"change_page_shopee.png"
     cant_shopee = parth_image+"cant_shopee.png"
     cant2_shopee = parth_image+"cant2_shopee.png"
+    space_shopee = parth_image+"space_shopee.png"
     name_file2 = path_file+"\download\\";
     header_csv = [
         "รหัสสินค้า",
