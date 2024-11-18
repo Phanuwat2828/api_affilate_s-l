@@ -1,4 +1,4 @@
-# version 0.0.4
+# version 0.0.5
 from Api import Api as api
 from Click import Click as click
 from Data import Data as data
@@ -13,8 +13,6 @@ import threading
 import sys
 from tkinter import ttk
 from tkinter import messagebox
-
-
 
 # Gui 
 root = tk.Tk()

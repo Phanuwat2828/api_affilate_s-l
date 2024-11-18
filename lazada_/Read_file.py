@@ -35,7 +35,7 @@ class Read_file:
                     data_send[Data.header_data[j]] = data_input;
                     if(Data.header_data[j]=="item_id"):
                         data_send["item_id"] = data_input;
-                        data_api = api.api_detail(data_input);
+                        data_api = api.api_detail_shopee(data_input);
                         status_detail = data_api['code']
                         if(status_detail == 200): #status data_api 200
                             data_send["group"] = Data.selected_option
@@ -84,4 +84,60 @@ class Read_file:
             print(log.Info("info"),"Remove File",Data.name_file)
             os.remove(Data.name_file)
             print(log.Info("error"),e)
+
+    def process_split(value):
+        product_id = value.split('/')[4]  
+        print(log.Info("info")+"split ",value);
+        return product_id
+
+    def file_shopee():
+        path_file = os.getcwd();
+        folder_path = path_file+"\download"
+        if os.path.exists(folder_path) and os.path.isdir(folder_path):
+            files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
+            if files:
+                for file in files:
+                    return file
+            else:
+                print(log.Info("info")+"No files found in the folder.")
+        else:
+            print(log.Info("info")+"Folder does not exist.")
+
+    def Read_csv():
+        try:
+            Data.name_file2 += Read_file.file_shopee()
+            df = pd.read_csv(Data.name_file2)
+            num_rows, num_columns = df.shape
+            for i in range(num_rows):
+                data_send = {
+                    "item_id":None, #String
+                    "product_name":None,#String
+                    "sale_price":None, #Float
+                    "sold":None, #String
+                    "name_seller":None, #String
+                    "product_url":None, #String
+                    "commission_rate":None, #String
+                    "commission":None, #Float
+                    "promo_link":None, #String
+                    "place":None, #String
+                    "shop_id":None,#String
+                    "market":"Shopee" #String
+                }
+                for j in range(len(Data.header_csv)):
+                    data_input = str(df[Data.header_csv[j]][i])
+                    data_send[Data.head_key[Data.header_csv[j]]] = data_input;
+                    if(j==7):    
+                        data_send['shop_id'] = Read_file.process_split(data_input);
+                        print(log.Info("info"),i+1," :","รหัสร้านค้า","=",data_send['shop_id']);
+                    print(log.Info("info"),i+1," :",Data.header_csv[j],"=",data_send[Data.head_key[Data.header_csv[j]]]);
+                # data_detail = api.api_detail_shopee(data_send[ "item_id"],data_send['shop_id']);
+                # print( sender_api_main(json.dumps(data_send)))
+            print(log.Info("info"),"Remove File",Data.name_file2)
+            # os.remove(Data.name_file2)
+        except FileNotFoundError as e:
+            print(log.Info("info"),"Remove File",Data.name_file2)
+            # os.remove(Data.name_file2)
+            print(log.Info("error"),e)
+    
+
         

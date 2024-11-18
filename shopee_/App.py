@@ -52,7 +52,7 @@ def Info(type):
     return valueinfo
 
 def process_split(value):
-    product_id = value.split('/')[4]  # แยกตาม '/' และเลือกตำแหน่งที่ 4
+    product_id = value.split('/')[4]  
     print(Info("info")+"split ");
     return product_id
 
@@ -99,7 +99,7 @@ def Read_csv():
             "promo_link":None, #String
             "place":None, #String
             "shop_id":None,#String
-            "market":"Shopee" #String
+            "market":"shopee" #String
         }
         for j in range(len(header_csv)):
             data_input = str(df[header_csv[j]][i])

@@ -22,7 +22,7 @@ class Data:
     is_product = 0;
     api_conf = 0;
     group = "Test"
-    is_run = False
+    is_run = True
     parth_image = "./image/"
     url = "https://adsense.lazada.co.th/index.htm#!/offer/product_offer"
     image_to_find = parth_image+"type.png"
@@ -56,3 +56,35 @@ class Data:
         'กีฬาและการเดินทาง',
         'ยานยนต์และรถจักรยานยนต์',
     ]
+
+
+    select_product_shopee = parth_image+"select_shopee.png"
+    get_link_shopee = parth_image+"get_link_shopee.png"
+    take_link_shopee = parth_image+"take_link_shopee.png"
+    change_page_shopee = parth_image+"change_page_shopee.png"
+    cant_shopee = parth_image+"cant_shopee.png"
+    cant2_shopee = parth_image+"cant2_shopee.png"
+    name_file2 = path_file+"\download\\";
+    header_csv = [
+        "รหัสสินค้า",
+        "ชื่อสินค้า",
+        "ราคา",
+        "ขาย",
+        "ชื่อร้านค้า",
+        "อัตราค่าคอมมิชชัน",
+        "คอมมิชชัน",
+        "ลิงก์สินค้า",
+        "ลิงก์ข้อเสนอ"
+    ]
+
+    head_key = {
+        "รหัสสินค้า":"item_id",
+        "ชื่อสินค้า":"product_name",
+        "ราคา": "sale_price",
+        "ขาย":"sold",
+        "ชื่อร้านค้า":"name_seller",
+        "อัตราค่าคอมมิชชัน":"commission_rate",
+        "คอมมิชชัน":"commission",
+        "ลิงก์สินค้า":"product_url",
+        "ลิงก์ข้อเสนอ":"promo_link"
+    }

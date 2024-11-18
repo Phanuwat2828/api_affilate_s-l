@@ -30,7 +30,7 @@ class Api:
         except:
             return response.status_code
 
-    def api_detail(value):
+    def api_detail_lazada(value):
         url = "http://api.openchinaapi.com/v1/lazada/products/"+value+"?nation=th"
         payload={}
         headers = {
@@ -43,3 +43,14 @@ class Api:
             return data
         else:
             print("Error",response.status_code);
+
+    def api_detail_shopee(id_product,shop_id):
+        url = "http://api.openchinaapi.com/v1/shopee/products/"+id_product+"/?shop_id="+shop_id+"&nation=th"
+        payload={}
+        headers = {
+            'Authorization':'Token 5780d3ad5441aab79fd6bdc2de181d54c315fcb8'
+        }
+        response = requests.request("GET", url, headers=headers, data=payload)
+        data = json.loads(response.text);
+        print(log.Info("info")+"Check Data");
+        return data
