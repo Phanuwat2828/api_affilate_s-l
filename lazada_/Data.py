@@ -24,17 +24,20 @@ class Data:
     group = "Test"
     is_run = True
     is_api = False
+    mode = "lazada"
     parth_image = "./image/"
     url = "https://adsense.lazada.co.th/index.htm#!/offer/product_offer"
     image_to_find = parth_image+"type.png"
-    select_product = parth_image+"select_all.png"
-    get_link = parth_image+"getlink_.png"
-    export_link = parth_image+"export_.png"
-    product_image = parth_image+"product_image.png"
-    product_image1 = parth_image+"product_image2.png"
+
+    select_product_lazada = parth_image+"select_all.png"
+    get_link_lazada = parth_image+"getlink_.png"
+    export_link_lazad = parth_image+"export_.png"
+    product_image_lazada = parth_image+"product_image.png"
+    product_image1_lazada = parth_image+"product_image2.png"
     path_file = os.getcwd();
-    name_file = path_file+"\download\data_promo_list.xlsx";
-    space_ = parth_image+"space.png"
+    name_file_lazada = path_file+"\download\data_promo_list.xlsx";
+    space_lazada = parth_image+"space.png"
+    icon_lazada =  parth_image+"icon_lazada.png"
     header_data = [
         "item_id",
         "product_name",
@@ -44,7 +47,7 @@ class Data:
         "maximum commission_rate",
         "promo_short_link"
     ]
-    options = [
+    options_lazada = [
         'อุปกรณ์-อิเล็กทรอนิกส์',
         'อุปกรณ์เสริม-อิเล็กทรอนิกส์',
         'ทีวีและเครื่องใช้ในบ้าน',
@@ -67,6 +70,7 @@ class Data:
     cant2_shopee = parth_image+"cant2_shopee.png"
     space_shopee = parth_image+"space_shopee.png"
     name_file2 = path_file+"\download\\";
+    icon_shopee =  parth_image+"icon_shopee.png"
     header_csv = [
         "รหัสสินค้า",
         "ชื่อสินค้า",
@@ -90,3 +94,16 @@ class Data:
         "ลิงก์สินค้า":"product_url",
         "ลิงก์ข้อเสนอ":"promo_link"
     }
+    options_shopee = [
+        'อุปกรณ์-อิเล็กทรอนิกส์',
+        'อุปกรณ์เสริม-อิเล็กทรอนิกส์',
+        'ทีวีและเครื่องใช้ในบ้าน',
+        'สุขภาพและความงาม',
+        'ทารกและของเล่น',
+        'ของชำและสัตว์เลี้ยง',
+        'บ้านและไลฟ์สไตล์',
+        'แฟชั่นและเครื่องประดับผู้หญิง',
+        'แฟชั่นและเครื่องประดับผู้ชาย',
+        'กีฬาและการเดินทาง',
+        'ยานยนต์และรถจักรยานยนต์',
+    ]

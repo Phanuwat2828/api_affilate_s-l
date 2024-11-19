@@ -14,12 +14,8 @@ import sys
 from tkinter import ttk
 from tkinter import messagebox
 
-
-
-
-def run_app():
+def run_App_shopee():
     data.is_product = 200;
-
     click.time_start()
     status_ = click.Click_component(data.space_shopee,1,0.7);
     click.Mouse_scroll(2,700,5);
@@ -30,16 +26,14 @@ def run_app():
             if(status_):
                 data.count_product+=20;
                 data.product_total+=20;
+            if(data.count_product>=100 or data.product_total>=data.is_product):
+                break;
             click.Click_component(data.change_page_shopee,1,0.8);
             print(log.Info("info")+"Excel Max[100]: Now ",data.count_product);
             print(log.Info("info")+"Product_Total Max[",data.is_product,"]:",data.product_total);
-        
+
         click.Click_component(data.get_link_shopee,1,0.7);
         click.Click_component(data.take_link_shopee,2,0.8);
         read_file.Read_csv();
         click.Click_component(data.cant_shopee,1,0.8);
         click.Click_component(data.cant2_shopee,2,0.9);
-
-
-
-run_app()
