@@ -117,8 +117,7 @@ class Read_file:
                     "item_id":None, #String
                     "product_name":None,#String
                     "sale_price":None, #Float
-                    "sold":None, #String
-                    "name_seller":None, #String
+                    "sold":None, #int
                     "product_url":None, #String
                     "commission_rate":None, #String
                     "commission":None, #Float
@@ -130,11 +129,11 @@ class Read_file:
                 for j in range(len(Data.header_csv)):
                     data_input = str(df[Data.header_csv[j]][i])
                     data_send[Data.head_key[Data.header_csv[j]]] = data_input;
-                    if(j==7):    
-                        data_send['shop_id'] = Read_file.process_split(data_input);
+                    if(j==6):    
+                        shop_id = Read_file.process_split(data_input);
                         print(log.Info("info"),i+1," :","รหัสร้านค้า","=",data_send['shop_id']);
                     print(log.Info("info"),i+1," :",Data.header_csv[j],"=",data_send[Data.head_key[Data.header_csv[j]]]);
-                # data_detail = api.api_detail_shopee(data_send[ "item_id"],data_send['shop_id']);
+                # data_detail = api.api_detail_shopee(data_send[ "item_id"],shop_id);
                 # print( sender_api_main(json.dumps(data_send)))
             print(log.Info("info"),"Remove File",Data.name_file2+Read_file.file_shopee())
             os.remove(Data.name_file2+Read_file.file_shopee())
