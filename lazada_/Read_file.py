@@ -125,7 +125,10 @@ class Read_file:
             time.sleep(5)
             df = pd.read_csv(Data.name_file2+Read_file.file_shopee())
             num_rows, num_columns = df.shape
-            for i in range(num_rows):
+            i=0;
+            is_ = Data.is_product
+            while(Data.product_total<Data.is_product and i<num_rows):
+                # for i in range(num_rows):
                 data_send = {
                     "item_id":None, #String
                     "product_name":None,#String
@@ -177,13 +180,17 @@ class Read_file:
                     if(status_detail!=200):
                         print(log.Info("Error"),status_detail)
                         return 
+                    if status_main==200 :
+                        Data.api_conf+=1;
+                i+=1;
+                Data.product_total+=1;
                 # data_detail = api.api_detail_shopee(data_send[ "item_id"],shop_id);
                 # print( sender_api_main(json.dumps(data_send)))
             print(log.Info("info"),"Remove File",Data.name_file2+Read_file.file_shopee())
-            # os.remove(Data.name_file2+Read_file.file_shopee())
+            os.remove(Data.name_file2+Read_file.file_shopee())
         except FileNotFoundError as e:
             print(log.Info("info"),"Remove File",Data.name_file2+Read_file.file_shopee())
-            # os.remove(Data.name_file2+Read_file.file_shopee())
+            os.remove(Data.name_file2+Read_file.file_shopee())
             print(log.Info("error"),e)
     
 

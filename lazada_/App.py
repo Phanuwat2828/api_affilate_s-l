@@ -1,4 +1,4 @@
-# version 0.0.6 lazada & shopee
+# version 0.1.0 lazada & shopee
 from Api import Api as api
 from Click import Click as click
 from Data import Data as data
@@ -108,6 +108,8 @@ def run_App_lazada():
         read_file.Read_Excel()
         update_labels();
         data.is_run = False
+    start_stop_button.config(text="Start", bg="green", fg="white")
+    data.is_run = False
 
 def run_App_shopee():
     click.time_start()
@@ -128,13 +130,13 @@ def run_App_shopee():
             status_ = click.Click_component(data.select_product_shopee,1,0.6);
             if(status_):
                 data.count_product+=20;
-                data.product_total+=20;
                 update_labels();
-            if(data.count_product>=100 or data.product_total>=data.is_product):
+            if(data.count_product>=100 or data.product_total>=data.is_product or data.count_product>=(data.is_product-data.product_total)):
                 break;
             if not data.is_run:
                 print(log.Info("info") + "Process stopped by user.")
                 return
+            click.Mouse_scroll(1,500,5);
             click.Click_component(data.change_page_shopee,1,0.8);
             print(log.Info("info")+"Excel Max[100]: Now ",data.count_product);
             print(log.Info("info")+"Product_Total Max[",data.is_product,"]:",data.product_total);
@@ -157,6 +159,7 @@ def run_App_shopee():
             return
         click.Click_component(data.cant2_shopee,2,0.9);
         update_labels();
+    start_stop_button.config(text="Start", bg="green", fg="white")
     data.is_run = False
 
 def on_submit():
@@ -175,7 +178,6 @@ entry.place(x=318,y=21)
 def toggle():
     label_Now.config(text="จำนวณสินค้าทั้งหมดตอนนี้ : "+str(data.product_total))
     if data.is_run:
-        start_stop_button.config(text="Start", bg="green", fg="white")
         if messagebox.askyesno("ยืนยัน", "คุณต้องการหยุดการทำงานหรือไม่?"):
             data.count_product = 0;
             data.product_total = 0;
