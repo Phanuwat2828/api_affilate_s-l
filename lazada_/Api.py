@@ -52,5 +52,5 @@ class Api:
         }
         response = requests.request("GET", url, headers=headers, data=payload)
         data = json.loads(response.text);
-        print(log.Info("info")+"Check Data");
+        print(log.Info("info")+" APi Detail");
         return data

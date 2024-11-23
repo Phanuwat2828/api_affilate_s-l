@@ -38,10 +38,16 @@ sys.stdout = show_log(text_output)
 sys.stderr = show_log(text_output)
 
 def update_labels():
-    label_api_conf.config(text="จำนวณสินค้าที่ส่งไปแล้ว api confirm : " + str(data.api_conf))
-    label_Excel.config(text="จำนวณสินค้าที่เลือกลง Excel สูงสุด 200 ชิ้น : " + str(data.count_product))
-    label_Now.config(text="จำนวณสินค้าทั้งหมดตอนนี้ : " + str(data.product_total))
-    label_max.config(text="จำนวณสินค้าที่ต้องการ : " + str(data.is_product))
+    if(data.mode=="lazada"):
+        label_api_conf.config(text="จำนวณสินค้าที่ส่งไปแล้ว api confirm : " + str(data.api_conf))
+        label_Excel.config(text="จำนวณสินค้าที่เลือกลง Excel สูงสุด 200 ชิ้น : " + str(data.count_product))
+        label_Now.config(text="จำนวณสินค้าทั้งหมดตอนนี้ : " + str(data.product_total))
+        label_max.config(text="จำนวณสินค้าที่ต้องการ : " + str(data.is_product))
+    else:
+        label_api_conf.config(text="จำนวณสินค้าที่ส่งไปแล้ว api confirm : " + str(data.api_conf))
+        label_Excel.config(text="จำนวณสินค้าที่เลือกลง Excel สูงสุด 100 ชิ้น : " + str(data.count_product))
+        label_Now.config(text="จำนวณสินค้าทั้งหมดตอนนี้ : " + str(data.product_total))
+        label_max.config(text="จำนวณสินค้าที่ต้องการ : " + str(data.is_product))
 
 def run_App_lazada():
     click.time_start()
@@ -80,6 +86,7 @@ def run_App_lazada():
                     break;
             print(log.Info("info")+"Excel Max[200]: Now ",data.count_product);
             print(log.Info("info")+"Product_Total Max[",data.is_product,"]:",data.product_total);
+            update_labels();
             if(data.product_total>=data.is_product):
                 break;
         click.Click_component(data.get_link_lazada,2,0.6);
@@ -100,9 +107,9 @@ def run_App_lazada():
                 return
         read_file.Read_Excel()
         update_labels();
+        data.is_run = False
 
 def run_App_shopee():
-    data.is_product = 200;
     click.time_start()
     if not data.is_run:
         print(log.Info("info") + "Process stopped by user.")
@@ -150,6 +157,7 @@ def run_App_shopee():
             return
         click.Click_component(data.cant2_shopee,2,0.9);
         update_labels();
+    data.is_run = False
 
 def on_submit():
     try:

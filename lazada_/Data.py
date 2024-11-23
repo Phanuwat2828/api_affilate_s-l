@@ -22,7 +22,7 @@ class Data:
     is_product = 0;
     api_conf = 0;
     group = "Test"
-    is_run = True
+    is_run = False
     is_api = False
     mode = "lazada"
     parth_image = "./image/"
@@ -60,8 +60,6 @@ class Data:
         'กีฬาและการเดินทาง',
         'ยานยนต์และรถจักรยานยนต์',
     ]
-
-
     select_product_shopee = parth_image+"select_shopee.png"
     get_link_shopee = parth_image+"get_link_shopee.png"
     take_link_shopee = parth_image+"take_link_shopee.png"
@@ -105,3 +103,7 @@ class Data:
         'กีฬาและการเดินทาง',
         'ยานยนต์และรถจักรยานยนต์',
     ]
+
+
+
+
