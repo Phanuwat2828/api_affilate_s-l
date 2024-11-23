@@ -23,11 +23,12 @@ class Data:
     api_conf = 0;
     group = "Test"
     is_run = False
-    is_api = False
+    is_api = True
     mode = "lazada"
     parth_image = "./image/"
     url = "https://adsense.lazada.co.th/index.htm#!/offer/product_offer"
     image_to_find = parth_image+"type.png"
+    
 
     select_product_lazada = parth_image+"select_all.png"
     get_link_lazada = parth_image+"getlink_.png"
@@ -35,6 +36,7 @@ class Data:
     product_image_lazada = parth_image+"product_image.png"
     product_image1_lazada = parth_image+"product_image2.png"
     path_file = os.getcwd();
+    folder_down = path_file+"\download"
     name_file_lazada = path_file+"\download\data_promo_list.xlsx";
     space_lazada = parth_image+"space.png"
     icon_lazada =  parth_image+"icon_lazada.png"

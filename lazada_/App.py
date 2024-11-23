@@ -5,15 +5,19 @@ from Data import Data as data
 from Info import Info as log
 from Read_file import Read_file as read_file
 from Show_log import ConsoleRedirector as show_log
-
 import tkinter as tk
 from Data import Data as data
-
 import threading
 import sys
 from tkinter import ttk
 from tkinter import messagebox
 from tkinter import PhotoImage
+import time
+import pandas as pd
+import os
+import json
+from datetime import datetime
+import requests
 
 # Gui 
 root = tk.Tk()
@@ -215,6 +219,9 @@ label_entry2.place(x=180, y=65)
 
 def change_mode():
     if(data.mode == "lazada"): #shopee
+        data.count_product = 0;
+        data.product_total = 0;
+        data.is_product = 0;
         icon = PhotoImage(file=data.icon_shopee)  # ระบุชื่อไฟล์หรือเส้นทางของไฟล์ PNG
         root.iconphoto(False, icon)  # เปลี่ยนไอคอนของหน้าต่าง
         data.mode="shopee"
@@ -225,6 +232,9 @@ def change_mode():
         text_output.config(fg="#FA4032")
         label_Excel.config(text="จำนวณสินค้าที่เลือกลง Excel สูงสุด 100 ชิ้น : " + str(data.count_product))
     else: #lazada
+        data.count_product = 0;
+        data.product_total = 0;
+        data.is_product = 0;
         icon = PhotoImage(file=data.icon_lazada)  # ระบุชื่อไฟล์หรือเส้นทางของไฟล์ PNG
         root.iconphoto(False, icon)  # เปลี่ยนไอคอนของหน้าต่าง
         data.mode="lazada"

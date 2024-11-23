@@ -127,7 +127,8 @@ class Read_file:
             num_rows, num_columns = df.shape
             i=0;
             is_ = Data.is_product
-            while(Data.product_total<Data.is_product and i<num_rows):
+            # Data.product_total<Data.is_product and
+            while(i<num_rows):
                 # for i in range(num_rows):
                 data_send = {
                     "item_id":None, #String
@@ -140,9 +141,9 @@ class Read_file:
                     "promo_link":None, #String
                     "address":None, #String
                     "review":None, #Int
-                    "market":"Shopee", #String
+                    "market":"shopee", #String
                     "picture_url":None, #String 
-                    "group":Data.group #String
+                    "group":Data.selected_option #String
                 }
                 for j in range(len(Data.header_csv)):
                     data_input = str(df[Data.header_csv[j]][i]);
@@ -151,12 +152,24 @@ class Read_file:
                         data_send[Data.head_key[Data.header_csv[j]]] = data_input;
                         if(Data.is_api):
                             data_detail = api.api_detail_shopee(data_send[ "item_id"],shop_id);
-                            status_detail = data_detail['code']
+                            status_detail = data_detail['data']['code']
+                            print(data_detail);
                             print(log.Info("info"),"status_Detail",status_detail)
                             if(status_detail == 200):
-                                data_send["review"] = int(data_detail["data"]["review_info"]["rating_star"])
-                                data_send["address"] = data_detail["data"]["shop_info"]["shop_location"]
-                                data_send["picture_url"] = data_detail["data"]["main_imgs"][0]
+                                try:
+                                    data_send["review"] = int(data_detail["data"]["review_info"]["rating_star"])
+                                except Exception as e:
+                                    data_send["review"] = 0;
+                                try:
+                                    data_send["address"] = data_detail["data"]["shop_info"]["shop_location"]
+                                    if(data_send["address"]=="Overseas"):
+                                        data_send["address"] = "ต่างประเทศ"
+                                except Exception as e:
+                                    data_send["address"] = "ไม่ระบุที่อยู่"
+                                try:
+                                    data_send["picture_url"] = data_detail["data"]["main_imgs"][0]
+                                except Exception as e:
+                                    data_send["picture_url"] = ""
                                 print(log.Info("info"),i+1," :","review","=",data_send["review"]);
                                 print(log.Info("info"),i+1," :","address","=",data_send["address"]);
                                 print(log.Info("info"),i+1," :","picture_url","=",data_send["picture_url"]);
@@ -171,7 +184,7 @@ class Read_file:
                     else:
                         data_send[Data.head_key[Data.header_csv[j]]] = data_input;
                     print(log.Info("info"),i+1," :",Data.header_csv[j],"=",data_send[Data.head_key[Data.header_csv[j]]]);
-                if(Data.is_api):
+                if(Data.is_api and status_detail==200):
                     status_main = api.send_api_main(json.dumps(data_send))
                     if(status_main!=200):
                         print(log.Info("Error"),status_main)
@@ -180,17 +193,19 @@ class Read_file:
                     if(status_detail!=200):
                         print(log.Info("Error"),status_detail)
                         return 
-                    if status_main==200 :
+                    if status_main==200 and status_detail==200 :
                         Data.api_conf+=1;
+                
+                time.sleep(2)
                 i+=1;
                 Data.product_total+=1;
                 # data_detail = api.api_detail_shopee(data_send[ "item_id"],shop_id);
                 # print( sender_api_main(json.dumps(data_send)))
             print(log.Info("info"),"Remove File",Data.name_file2+Read_file.file_shopee())
-            os.remove(Data.name_file2+Read_file.file_shopee())
+            # os.remove(Data.name_file2+Read_file.file_shopee())
         except FileNotFoundError as e:
             print(log.Info("info"),"Remove File",Data.name_file2+Read_file.file_shopee())
-            os.remove(Data.name_file2+Read_file.file_shopee())
+            # os.remove(Data.name_file2+Read_file.file_shopee())
             print(log.Info("error"),e)
     
 

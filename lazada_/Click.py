@@ -3,6 +3,7 @@ import pyperclip
 import time
 from Info import Info as log
 from Data import Data
+import os
 
 class Click:
     def Click_component(image,delay,confidence):
@@ -60,6 +61,17 @@ class Click:
         Click.press_key('enter',1,3)
         print(log.Info("info"),"Get_Chrome Finish")
     
+    def delete_all_files_in_folder(folder_path):
+        try:
+            for file_name in os.listdir(folder_path):  # วนลูปทุกไฟล์ในโฟลเดอร์
+                file_path = os.path.join(folder_path, file_name)  # สร้าง path เต็มของไฟล์
+                if os.path.isfile(file_path):  # ตรวจสอบว่าเป็นไฟล์
+                    os.remove(file_path)  # ลบไฟล์
+                    print(log.Info("info"),f"ลบไฟล์: {file_path}")
+            print(log.Info("info")," ลบไฟล์ทั้งหมดเสร็จเรียบร้อย!")
+        except Exception as e:
+            print(log.Info("error"),f"เกิดข้อผิดพลาด: {e}")
+    
     def time_start():
         for _ in range(0,3):
             if not Data.is_run:
@@ -68,3 +80,4 @@ class Click:
             print(log.Info("info"),_+1)
             time.sleep(1)
         print(log.Info("info"),"Start!")
+        Click.delete_all_files_in_folder(Data.folder_down);
