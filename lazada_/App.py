@@ -18,6 +18,8 @@ import os
 import json
 from datetime import datetime
 import requests
+import pyautogui
+import pyperclip
 
 # Gui 
 root = tk.Tk()

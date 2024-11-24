@@ -152,8 +152,11 @@ class Read_file:
                         data_send[Data.head_key[Data.header_csv[j]]] = data_input;
                         if(Data.is_api):
                             data_detail = api.api_detail_shopee(data_send[ "item_id"],shop_id);
-                            status_detail = data_detail['data']['code']
                             print(data_detail);
+                            try:
+                                status_detail = data_detail['data']['code']
+                            except Exception as e:
+                                status_detail = 200;
                             print(log.Info("info"),"status_Detail",status_detail)
                             if(status_detail == 200):
                                 try:

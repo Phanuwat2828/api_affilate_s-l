@@ -4,8 +4,8 @@ from Data import Data as data
 from Info import Info as log
 from Read_file import Read_file as read_file
 from Show_log import ConsoleRedirector as show_log
+import os
 
 
-read_file.Read_csv();
 
-
+print(path_file);
