@@ -1,12 +1,13 @@
 import requests
 import json
 from Info import Info as log
+from Data import Data as dt
 class Api:
     def send_api_main(data):
         # main
-        url_Api = "http://26.49.17.12:8080/0eea90b98ea1129c8f7c16af9bca09820d5564ac93678c9766000941f5444ade"
+        url_Api = dt.url_main
         payload = {
-            "key":"5a3dec84301206e275f7ca7fa119796c8a5be05d100a2d23ba3a4f189876d03a",
+            "key":dt.key_api_sender_main,
             "datas":data 
         }
         try:
@@ -18,9 +19,9 @@ class Api:
         
     def send_api_detail(data):
         # main
-        url_Api = "http://26.49.17.12:8080/5564ac93678c9766000941f5444ade0eea90b98ea1129c8f7c16af9bca09820d"
+        url_Api = dt.url_detail
         payload = {
-            "key":"5a3dec84301206e275f7ca7fa119796c8a5be05d100a2d23ba3a4f189876d03a",
+            "key":dt.key_api_sender_detail,
             "datas":data 
         }
         try:
@@ -34,7 +35,7 @@ class Api:
         url = "http://api.openchinaapi.com/v1/lazada/products/"+value+"?nation=th"
         payload={}
         headers = {
-            'Authorization':'Token 5780d3ad5441aab79fd6bdc2de181d54c315fcb8'
+            'Authorization':dt.token_data
         }
         response = requests.request("GET", url, headers=headers, data=payload)
         if(response.status_code == 200):
@@ -48,7 +49,7 @@ class Api:
         url = "http://api.openchinaapi.com/v1/shopee/products/"+id_product+"/?shop_id="+shop_id+"&nation=th"
         payload={}
         headers = {
-            'Authorization':'Token 5780d3ad5441aab79fd6bdc2de181d54c315fcb8'
+            'Authorization':dt.token_data
         }
         response = requests.request("GET", url, headers=headers, data=payload)
         data = json.loads(response.text);

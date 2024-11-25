@@ -151,31 +151,37 @@ class Read_file:
                         shop_id = Read_file.process_split(data_input);
                         data_send[Data.head_key[Data.header_csv[j]]] = data_input;
                         if(Data.is_api):
-                            data_detail = api.api_detail_shopee(data_send[ "item_id"],shop_id);
-                            print(data_detail);
-                            try:
-                                status_detail = data_detail['data']['code']
-                            except Exception as e:
-                                status_detail = 200;
-                            print(log.Info("info"),"status_Detail",status_detail)
-                            if(status_detail == 200):
+                            i=0;
+                            status_detail = 0;
+                            while(status_detail!=200 and i<2):
+                                data_detail = api.api_detail_shopee(data_send[ "item_id"],shop_id);
+                                print(data_detail);
                                 try:
-                                    data_send["review"] = int(data_detail["data"]["review_info"]["rating_star"])
+                                    status_detail = data_detail['data']['code']
                                 except Exception as e:
-                                    data_send["review"] = 0;
-                                try:
-                                    data_send["address"] = data_detail["data"]["shop_info"]["shop_location"]
-                                    if(data_send["address"]=="Overseas"):
-                                        data_send["address"] = "ต่างประเทศ"
-                                except Exception as e:
-                                    data_send["address"] = "ไม่ระบุที่อยู่"
-                                try:
-                                    data_send["picture_url"] = data_detail["data"]["main_imgs"][0]
-                                except Exception as e:
-                                    data_send["picture_url"] = ""
-                                print(log.Info("info"),i+1," :","review","=",data_send["review"]);
-                                print(log.Info("info"),i+1," :","address","=",data_send["address"]);
-                                print(log.Info("info"),i+1," :","picture_url","=",data_send["picture_url"]);
+                                    status_detail = 200;
+                                print(log.Info("info"),"status_Detail",status_detail)
+                                if(status_detail == 200):
+                                    try:
+                                        data_send["review"] = int(data_detail["data"]["review_info"]["rating_star"])
+                                    except Exception as e:
+                                        data_send["review"] = 0;
+                                    try:
+                                        data_send["address"] = data_detail["data"]["shop_info"]["shop_location"]
+                                        if(data_send["address"]=="Overseas"):
+                                            data_send["address"] = "ต่างประเทศ"
+                                    except Exception as e:
+                                        data_send["address"] = "ไม่ระบุที่อยู่"
+                                    try:
+                                        data_send["picture_url"] = data_detail["data"]["main_imgs"][0]
+                                    except Exception as e:
+                                        data_send["picture_url"] = ""
+                                    print(log.Info("info"),i+1," :","review","=",data_send["review"]);
+                                    print(log.Info("info"),i+1," :","address","=",data_send["address"]);
+                                    print(log.Info("info"),i+1," :","picture_url","=",data_send["picture_url"]);
+                                i+=1;
+                                time.sleep(2)
+                
                     elif(Data.header_csv[j]=="ราคา"):
                         data_send[Data.head_key[Data.header_csv[j]]] = Read_file.format_1(data_input)
                     elif(Data.header_csv[j]=="ขาย"):

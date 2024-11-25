@@ -20,7 +20,6 @@ from datetime import datetime
 import requests
 import pyautogui
 import pyperclip
-
 # Gui 
 root = tk.Tk()
 root.title("Affiliate Lazada")

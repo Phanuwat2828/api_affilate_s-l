@@ -1,20 +1,24 @@
 import os
-# item_id:{type:String},
-# product_name:{type:String},
-# sale_price:{type:Number},
-# discounted_price:{type:Number},
-# discounted_percentage:{type:String},
-# picture_url:{type:String},
-# product_url:{type:String},
-# maximum_commission_rate:{type:String},
-# commission:{type:Number},
-# Seller_Id:{type:String},
-# promo_link:{type:String},
-# promo_short_link:{type:String},
-# address:{type:String},
-# group:{type:String},
-# market:{type:String}
 class Data:
+    path_file = os.getcwd();
+    setting_insert = open(path_file+'/setting.txt',mode='r',encoding='utf-8');
+    def setting(setting_insert):
+        data = setting_insert.readlines()
+        data_setting = []
+        for i in range(len(data)):
+            data_setting.append(data[i].replace('\n','').split('=')[1]);
+        return data_setting;
+    setting = setting(setting_insert)
+    url_main = setting[0]
+    key_api_sender_main = setting[1]
+    url_detail = setting[2]
+    key_api_sender_detail = setting[3]
+    token_data = setting[4]
+    is_api = True
+    if(setting[5] == "False"):
+        is_api = False
+
+
     first = True
     selected_option = 'อุปกรณ์-อิเล็กทรอนิกส์';
     count_product = 0;
@@ -23,9 +27,7 @@ class Data:
     api_conf = 0;
     group = "Test"
     is_run = False
-    is_api = False
     mode = "lazada"
-    path_file = os.getcwd();
     parth_image = path_file+"\image\\"
     url = "https://adsense.lazada.co.th/index.htm#!/offer/product_offer"
     image_to_find = parth_image+"type.png"
@@ -105,6 +107,7 @@ class Data:
         'แฟชั่นและเครื่องประดับผู้ชาย',
         'กีฬาและการเดินทาง',
         'ยานยนต์และรถจักรยานยนต์',
+        "ตั๋วและบัตรกำนัน"
     ]
 
 
