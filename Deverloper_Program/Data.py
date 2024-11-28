@@ -1,7 +1,7 @@
 import os
 class Data:
     path_file = os.getcwd();
-    setting_insert = open(path_file+'/setting.txt',mode='r',encoding='utf-8');
+    setting_insert = open(path_file+'\setting.txt',mode='r',encoding='utf-8');
     def setting(setting_insert):
         data = setting_insert.readlines()
         data_setting = []
