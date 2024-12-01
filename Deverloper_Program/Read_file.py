@@ -36,13 +36,24 @@ class Read_file:
                     if(Data.header_data[j]=="item_id"):
                         data_send["item_id"] = data_input;
                         if(Data.is_api):
+                            print(data_input)
                             data_api = api.api_detail_lazada(data_input);
-                            status_detail = data_api['code']
+                            
+                            try:
+                                status_detail = data_api['data']['code']
+                            except Exception as e:
+                                status_detail = 200;
                             print(data_api)
                             if(status_detail == 200): #status data_api 200
                                 data_send["group"] = Data.selected_option
-                                data_send["review"] = data_api["data"]["review_info"]["average_score"]
-                                data_send["address"] = data_api["data"]["delivery_info"]["area_from"]
+                                try:
+                                    data_send["address"] = data_api["data"]["delivery_info"]["area_from"]
+                                except Exception as e:
+                                    data_send["address"] = "ไม่ระบุที่อยู่"
+                                try:
+                                    data_send["review"] = data_api["data"]["review_info"]["average_score"]
+                                except Exception as e:
+                                    data_send["review"] = 0;
                             else:
                                 print(log.Info("error"),status_detail)
                                 return
@@ -66,16 +77,19 @@ class Read_file:
                         print(log.Info("info"),"[",i+1,": address ] ",data_send["address"]);
                     # print(log.Info("info"),"[",i+1,": "+Data.header_data[j]+" ] ",data_send[Data.header_data[j]]);
                 print(log.Info("info")+"Read product [",i+1,"]")
-                if(Data.is_api):
-                    status_main = api.send_api_main(json.dumps(data_send))
-                    if(status_main!=200):
-                        print(log.Info("error"),status_main)
-                        return 
-                    status_detail = api.send_api_detail(json.dumps(data_api['data']));
-                    if(status_detail!=200):
-                        print(log.Info("error"),status_detail)
-                        return 
-                Data.api_conf +=1;
+                if(Data.is_api and status_detail==200):
+                    try:
+                        status_main = api.send_api_main(json.dumps(data_send))
+                        if(status_main!=200):
+                            print(log.Info("error"),status_main)
+                        status_detail = api.send_api_detail(json.dumps(data_api['data']));
+                        if(status_detail!=200):
+                            print(log.Info("error"),status_detail)
+                        if(status_detail==200 and status_main==200):
+                            Data.api_conf +=1;
+                    except Exception as e:
+                        print(log.Info("error"),e);
+           
                 # sender_api(json.dumps(data_send));
             print(log.Info("info"),"Remove File",Data.name_file_lazada)
             os.remove(Data.name_file_lazada)
@@ -197,16 +211,17 @@ class Read_file:
                         data_send[Data.head_key[Data.header_csv[j]]] = data_input;
                     print(log.Info("info"),i+1," :",Data.header_csv[j],"=",data_send[Data.head_key[Data.header_csv[j]]]);
                 if(Data.is_api and status_detail==200):
-                    status_main = api.send_api_main(json.dumps(data_send))
-                    if(status_main!=200):
-                        print(log.Info("Error"),status_main)
-                        return 
-                    status_detail = api.send_api_detail(json.dumps(data_detail['data']));
-                    if(status_detail!=200):
-                        print(log.Info("Error"),status_detail)
-                        return 
-                    if status_main==200 and status_detail==200 :
-                        Data.api_conf+=1;
+                    try:
+                        status_main = api.send_api_main(json.dumps(data_send))
+                        if(status_main!=200):
+                            print(log.Info("Error"),status_main)
+                        status_detail = api.send_api_detail(json.dumps(data_detail['data']));
+                        if(status_detail!=200):
+                            print(log.Info("Error"),status_detail)
+                        if status_main==200 and status_detail==200 :
+                            Data.api_conf+=1;
+                    except Exception as e:
+                        print(log.Info("error")+e);
                 
                 time.sleep(2)
                 i+=1;
