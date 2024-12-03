@@ -93,7 +93,7 @@ class Data:
         "อัตราค่าคอมมิชชัน":"commission_rate",
         "คอมมิชชัน":"commission",
         "ลิงก์สินค้า":"product_url",
-        "ลิงก์ข้อเสนอ":"promo_link"
+        "ลิงก์ข้อเสนอ":"affiliate_link"
     }
     options_shopee = [
         'อุปกรณ์-อิเล็กทรอนิกส์',

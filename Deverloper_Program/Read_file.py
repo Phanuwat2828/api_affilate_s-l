@@ -38,25 +38,27 @@ class Read_file:
                         if(Data.is_api):
                             print(data_input)
                             data_api = api.api_detail_lazada(data_input);
-                            
                             try:
                                 status_detail = data_api['data']['code']
                             except Exception as e:
                                 status_detail = 200;
                             print(data_api)
-                            if(status_detail == 200): #status data_api 200
-                                data_send["group"] = Data.selected_option
-                                try:
-                                    data_send["address"] = data_api["data"]["delivery_info"]["area_from"]
-                                except Exception as e:
-                                    data_send["address"] = "ไม่ระบุที่อยู่"
-                                try:
-                                    data_send["review"] = data_api["data"]["review_info"]["average_score"]
-                                except Exception as e:
-                                    data_send["review"] = 0;
-                            else:
-                                print(log.Info("error"),status_detail)
-                                return
+                            k=0;
+                            while(status_detail!=200 and k<2):
+                                k+=1;
+                                if(status_detail == 200): #status data_api 200
+                                    data_send["group"] = Data.selected_option
+                                    try:
+                                        data_send["address"] = data_api["data"]["delivery_info"]["area_from"]
+                                    except Exception as e:
+                                        data_send["address"] = "ไม่ระบุที่อยู่"
+                                    try:
+                                        data_send["review"] = data_api["data"]["review_info"]["average_score"]
+                                    except Exception as e:
+                                        data_send["review"] = 0;
+                                else:
+                                    print(log.Info("error"),status_detail)
+                                    return
                     if(Data.header_data[j]=="product_name"):
                         data_send["product_name"] = data_input;
                     if(Data.header_data[j]=="sale_price"):
@@ -92,10 +94,10 @@ class Read_file:
            
                 # sender_api(json.dumps(data_send));
             print(log.Info("info"),"Remove File",Data.name_file_lazada)
-            os.remove(Data.name_file_lazada)
+            # os.remove(Data.name_file_lazada)
         except FileNotFoundError as e:
             print(log.Info("info"),"Remove File",Data.name_file_lazada)
-            os.remove(Data.name_file)
+            # os.remove(Data.name_file)
             print(log.Info("error"),e)
 
     def process_split(value):
@@ -143,7 +145,7 @@ class Read_file:
             i=0;
             is_ = Data.is_product
             # Data.product_total<Data.is_product and
-            while(i<num_rows):
+            while(i<10):
                 # for i in range(num_rows):
                 data_send = {
                     "item_id":None, #String
@@ -229,10 +231,10 @@ class Read_file:
                 # data_detail = api.api_detail_shopee(data_send[ "item_id"],shop_id);
                 # print( sender_api_main(json.dumps(data_send)))
             print(log.Info("info"),"Remove File",Data.name_file2+Read_file.file_shopee())
-            # os.remove(Data.name_file2+Read_file.file_shopee())
+            os.remove(Data.name_file2+Read_file.file_shopee())
         except FileNotFoundError as e:
             print(log.Info("info"),"Remove File",Data.name_file2+Read_file.file_shopee())
-            # os.remove(Data.name_file2+Read_file.file_shopee())
+            os.remove(Data.name_file2+Read_file.file_shopee())
             print(log.Info("error"),e)
     
 

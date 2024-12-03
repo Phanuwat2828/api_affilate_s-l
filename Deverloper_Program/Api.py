@@ -44,10 +44,12 @@ class Api:
             return data
         else:
             print(log.Info("error"),response.status_code);
+            return 0
 
     def api_detail_shopee(id_product,shop_id):
         url = "http://api.openchinaapi.com/v1/shopee/products/"+id_product+"/?shop_id="+shop_id+"&nation=th"
         payload={}
+        print(url);
         headers = {
             'Authorization':dt.token_data
         }
@@ -58,3 +60,4 @@ class Api:
             return data
         else:
             print(log.Info("error"),response.status_code);
+            return 0
