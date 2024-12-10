@@ -55,9 +55,12 @@ class Read_file:
                                         if(data_send["address"]==None):
                                             data_send["address"] = "ไม่ระบุที่อยู่"
                                         else:
-                                            provinces_pattern = "|".join(Data.provinces)
-                                            matches = re.findall(provinces_pattern, data_send["address"])
-                                            data_send["address"] = matches[0]
+                                            try:
+                                                provinces_pattern = "|".join(Data.provinces)
+                                                matches = re.findall(provinces_pattern, data_send["address"])
+                                                data_send["address"] = matches[0]
+                                            except Exception as ex:
+                                                print(ex);
 
    
                                     except Exception as e:
@@ -197,10 +200,13 @@ class Read_file:
                                         data_send["address"] = data_detail["data"]["shop_info"]["shop_location"]
                                         if(data_send["address"]=="Overseas"):
                                             data_send["address"] = "ต่างประเทศ"
-                                        provinces_pattern = "|".join(Data.provinces)
-                                        matches = re.findall(provinces_pattern, data_send["address"])
-                                        data_send["address"] = matches[0]
-                                        print(log.Info("test"),data_send["address"]);
+                                        try:
+                                            provinces_pattern = "|".join(Data.provinces)
+                                            matches = re.findall(provinces_pattern, data_send["address"])
+                                            data_send["address"] = matches[0]
+                                            print(log.Info("test"),data_send["address"]);
+                                        except Exception as ex:
+                                            print(ex);
                                     except Exception as e:
                                         data_send["address"] = "ไม่ระบุที่อยู่"
                                     try:
