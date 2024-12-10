@@ -14,4 +14,6 @@ class Info:
             valueinfo+=" [WARNING] :"
         elif(type=="error"):
             valueinfo+=" [ERROR] :"
+        elif(type=="test"):
+            valueinfo+=" [TEST] :"
         return valueinfo

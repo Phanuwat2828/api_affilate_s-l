@@ -4,6 +4,7 @@ import os
 from Info import Info as log
 from Data import Data 
 import json
+import re
 from Api import Api as api
 class Read_file:
     def Read_Excel():
@@ -43,19 +44,29 @@ class Read_file:
                             except Exception as e:
                                 status_detail = 200;
                             print(data_api)
-                            k=0;
-                            while(status_detail!=200 and k<2):
+                            k=0; 
+                            while(status_detail==200 and k<2):
                                 k+=1;
                                 if(status_detail == 200): #status data_api 200
                                     data_send["group"] = Data.selected_option
                                     try:
                                         data_send["address"] = data_api["data"]["delivery_info"]["area_from"]
+                                        print(data_send["address"])
+                                        if(data_send["address"]==None):
+                                            data_send["address"] = "ไม่ระบุที่อยู่"
+                                        else:
+                                            provinces_pattern = "|".join(Data.provinces)
+                                            matches = re.findall(provinces_pattern, data_send["address"])
+                                            data_send["address"] = matches[0]
+
+   
                                     except Exception as e:
                                         data_send["address"] = "ไม่ระบุที่อยู่"
                                     try:
                                         data_send["review"] = data_api["data"]["review_info"]["average_score"]
                                     except Exception as e:
                                         data_send["review"] = 0;
+                                    print(log.Info("info"),"[",i+1,": address ] ",data_send["address"]);
                                 else:
                                     print(log.Info("error"),status_detail)
                                     return
@@ -76,8 +87,8 @@ class Read_file:
                         print(log.Info("info"),"[",i+1,": commission ] ",data_send["commission"]);
                         print(log.Info("info"),"[",i+1,": group ] ",data_send["group"]);
                         print(log.Info("info"),"[",i+1,": review ] ",data_send["review"]);
-                        print(log.Info("info"),"[",i+1,": address ] ",data_send["address"]);
-                    # print(log.Info("info"),"[",i+1,": "+Data.header_data[j]+" ] ",data_send[Data.header_data[j]]);
+                
+        
                 print(log.Info("info")+"Read product [",i+1,"]")
                 if(Data.is_api and status_detail==200):
                     try:
@@ -94,10 +105,10 @@ class Read_file:
            
                 # sender_api(json.dumps(data_send));
             print(log.Info("info"),"Remove File",Data.name_file_lazada)
-            # os.remove(Data.name_file_lazada)
+            os.remove(Data.name_file_lazada)
         except FileNotFoundError as e:
             print(log.Info("info"),"Remove File",Data.name_file_lazada)
-            # os.remove(Data.name_file)
+            os.remove(Data.name_file)
             print(log.Info("error"),e)
 
     def process_split(value):
@@ -142,11 +153,9 @@ class Read_file:
             time.sleep(5)
             df = pd.read_csv(Data.name_file2+Read_file.file_shopee())
             num_rows, num_columns = df.shape
-            i=0;
             is_ = Data.is_product
             # Data.product_total<Data.is_product and
-            while(i<10):
-                # for i in range(num_rows):
+            for i in range(num_rows):
                 data_send = {
                     "item_id":None, #String
                     "product_name":None,#String
@@ -188,6 +197,10 @@ class Read_file:
                                         data_send["address"] = data_detail["data"]["shop_info"]["shop_location"]
                                         if(data_send["address"]=="Overseas"):
                                             data_send["address"] = "ต่างประเทศ"
+                                        provinces_pattern = "|".join(Data.provinces)
+                                        matches = re.findall(provinces_pattern, data_send["address"])
+                                        data_send["address"] = matches[0]
+                                        print(log.Info("test"),data_send["address"]);
                                     except Exception as e:
                                         data_send["address"] = "ไม่ระบุที่อยู่"
                                     try:
@@ -226,15 +239,14 @@ class Read_file:
                         print(log.Info("error")+e);
                 
                 time.sleep(2)
-                i+=1;
                 Data.product_total+=1;
                 # data_detail = api.api_detail_shopee(data_send[ "item_id"],shop_id);
                 # print( sender_api_main(json.dumps(data_send)))
             print(log.Info("info"),"Remove File",Data.name_file2+Read_file.file_shopee())
-            os.remove(Data.name_file2+Read_file.file_shopee())
+            # os.remove(Data.name_file2+Read_file.file_shopee())
         except FileNotFoundError as e:
             print(log.Info("info"),"Remove File",Data.name_file2+Read_file.file_shopee())
-            os.remove(Data.name_file2+Read_file.file_shopee())
+            # os.remove(Data.name_file2+Read_file.file_shopee())
             print(log.Info("error"),e)
     
 
