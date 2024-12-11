@@ -79,6 +79,7 @@ class Data:
         'ยานยนต์และรถจักรยานยนต์',
     ]
     select_product_shopee = parth_image+"select_shopee.png"
+    select_product_shopee2 = parth_image+"select_shopee2.png"
     get_link_shopee = parth_image+"get_link_shopee.png"
     take_link_shopee = parth_image+"take_link_shopee.png"
     change_page_shopee = parth_image+"change_page_shopee.png"

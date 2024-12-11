@@ -114,6 +114,9 @@ def run_App_lazada():
         update_labels();
         data.is_run = False
     start_stop_button.config(text="Start", bg="green", fg="white")
+    data.count_product = 0;
+    data.product_total = 0;
+    data.is_product = 0;
     data.is_run = False
 
 def run_App_shopee():
@@ -133,6 +136,9 @@ def run_App_shopee():
                 print(log.Info("info") + "Process stopped by user.")
                 return
             status_ = click.Click_component(data.select_product_shopee,1,0.6);
+            if(not status_):
+                status_ = click.Click_component(data.select_product_shopee2,1,0.6);
+               
             if(status_):
                 data.count_product+=20;
                 update_labels();
@@ -165,6 +171,9 @@ def run_App_shopee():
         click.Click_component(data.cant2_shopee,2,0.9);
         update_labels();
     start_stop_button.config(text="Start", bg="green", fg="white")
+    data.count_product = 0;
+    data.product_total = 0;
+    data.is_product = 0;
     data.is_run = False
 
 def on_submit():

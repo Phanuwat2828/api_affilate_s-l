@@ -249,10 +249,10 @@ class Read_file:
                 # data_detail = api.api_detail_shopee(data_send[ "item_id"],shop_id);
                 # print( sender_api_main(json.dumps(data_send)))
             print(log.Info("info"),"Remove File",Data.name_file2+Read_file.file_shopee())
-            # os.remove(Data.name_file2+Read_file.file_shopee())
+            os.remove(Data.name_file2+Read_file.file_shopee())
         except FileNotFoundError as e:
             print(log.Info("info"),"Remove File",Data.name_file2+Read_file.file_shopee())
-            # os.remove(Data.name_file2+Read_file.file_shopee())
+            os.remove(Data.name_file2+Read_file.file_shopee())
             print(log.Info("error"),e)
     
 

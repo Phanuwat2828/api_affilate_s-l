@@ -32,7 +32,7 @@ class Api:
             return e
 
     def api_detail_lazada(value):
-        url = "http://api.openchinaapi.com/v1/lazada/products/"+value+"?nation=th"
+        url = "https://api.openchinaapi.com/v1/lazada/products/"+value+"?nation=th"
         payload={}
         headers = {
             'Authorization':dt.token_data
@@ -47,7 +47,7 @@ class Api:
             return 0
 
     def api_detail_shopee(id_product,shop_id):
-        url = "http://api.openchinaapi.com/v1/shopee/products/"+id_product+"/?shop_id="+shop_id+"&nation=th"
+        url = "https://api.openchinaapi.com/v1/shopee/products/"+id_product+"/?shop_id="+shop_id+"&nation=th"
         payload={}
         print(url);
         headers = {
