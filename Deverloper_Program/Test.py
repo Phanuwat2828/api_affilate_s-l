@@ -5,7 +5,8 @@ from Info import Info as log
 from Read_file import Read_file as read_file
 from Show_log import ConsoleRedirector as show_log
 import os
-read_file.Read_csv();
+read_file.Read_Excel();
+
 
 
 # https://60c3-49-48-119-197.ngrok-free.app/

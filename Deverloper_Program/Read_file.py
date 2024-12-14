@@ -9,7 +9,7 @@ from Api import Api as api
 class Read_file:
     def Read_Excel():
         try:
-            time.sleep(5)
+            time.sleep(10)
             read_excel = pd.read_excel(Data.name_file_lazada); # Path Excel
             num_rows, num_columns = read_excel.shape
             for i in range(num_rows):
@@ -105,6 +105,8 @@ class Read_file:
                             Data.api_conf +=1;
                     except Exception as e:
                         print(log.Info("error"),e);
+                else:
+                    print(log.Info("error"),"ไม่มีข้อมูลจาก API ไม่สามารถส่งได้ Data Detail NONE")
            
                 # sender_api(json.dumps(data_send));
             print(log.Info("info"),"Remove File",Data.name_file_lazada)
@@ -198,15 +200,18 @@ class Read_file:
                                         data_send["review"] = 0;
                                     try:
                                         data_send["address"] = data_detail["data"]["shop_info"]["shop_location"]
+                                        print(log.Info("test"),data_send["address"]);
                                         if(data_send["address"]=="Overseas"):
                                             data_send["address"] = "ต่างประเทศ"
-                                        try:
-                                            provinces_pattern = "|".join(Data.provinces)
-                                            matches = re.findall(provinces_pattern, data_send["address"])
-                                            data_send["address"] = matches[0]
-                                            print(log.Info("test"),data_send["address"]);
-                                        except Exception as ex:
-                                            print(ex);
+                                        else:
+                                            try:
+                                                provinces_pattern = "|".join(Data.provinces)
+                                                matches = re.findall(provinces_pattern, data_send["address"])
+                                                data_send["address"] = matches[0]
+                                                print(log.Info("test"),data_send["address"]);
+                                            except Exception as ex:
+                                                data_send["address"] = "ไม่ระบุที่อยู่"
+                                                print(log.Info("test"),ex);
                                     except Exception as e:
                                         data_send["address"] = "ไม่ระบุที่อยู่"
                                     try:
@@ -243,6 +248,8 @@ class Read_file:
                             Data.api_conf+=1;
                     except Exception as e:
                         print(log.Info("error")+e);
+                else:
+                    print(log.Info("error"),"ไม่มีข้อมูลจาก API ไม่สามารถส่งได้ Data Detail NONE")
                 
                 time.sleep(2)
                 Data.product_total+=1;

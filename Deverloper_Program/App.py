@@ -110,6 +110,7 @@ def run_App_lazada():
         if not data.is_run:
                 print(log.Info("info") + "Process stopped by user.")
                 return
+        
         read_file.Read_Excel()
         update_labels();
         data.is_run = False
