@@ -78,10 +78,10 @@ def run_App_lazada():
                 if not data.is_run:
                     print(log.Info("info") + "Process stopped by user.")
                     return
-                status_click = click.Click_component(data.product_image_lazada,1,0.6)
+                status_click = click.Click_component(data.product_image_lazada,1,0.4)
 
                 if(not status_click):
-                    status_click = click.Click_component(data.product_image1_lazada,1,0.6)
+                    status_click = click.Click_component(data.product_image1_lazada,1,0.4)
                 
                 if(status_click):
                     data.count_product+=1;
