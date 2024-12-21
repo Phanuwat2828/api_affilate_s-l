@@ -24,7 +24,7 @@ class Read_file:
                     "commission":None, #Float
                     "affiliate_link":None, #String
                     "address":None, #String
-                    "sold":0, #int
+                    "sold":None, #int
                     "review":None, #int
                     "group":None, #String
                     "market":"lazada" #String
@@ -61,15 +61,18 @@ class Read_file:
                                                 data_send["address"] = matches[0]
                                             except Exception as ex:
                                                 print(ex);
-
-   
                                     except Exception as e:
                                         data_send["address"] = "ไม่ระบุที่อยู่"
                                     try:
                                         data_send["review"] = data_api["data"]["review_info"]["average_score"]
                                     except Exception as e:
                                         data_send["review"] = 0;
+                                    try:
+                                        data_send["sold"] = data_api["data"]['sold']
+                                    except Exception as e:
+                                        data_send["sold"] = 0;
                                     print(log.Info("info"),"[",i+1,": address ] ",data_send["address"]);
+                                    print(log.Info("info"),"[",i+1,": sold ] ",data_send["sold"]);
                                 else:
                                     print(log.Info("error"),status_detail)
                                     return
