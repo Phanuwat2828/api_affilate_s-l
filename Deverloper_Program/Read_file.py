@@ -7,6 +7,23 @@ import json
 import re
 from Api import Api as api
 class Read_file:
+
+
+    def add_product_to_json(new_product, filename):
+        try:
+            with open(filename, "r", encoding="utf-8") as file:
+                data = json.load(file)
+
+            if "data" in data:
+                data["data"].append(new_product)
+            else:
+                data["data"] = [new_product]
+        except FileNotFoundError:
+            data = {"data": [new_product]}
+        
+        with open(filename, "w", encoding="utf-8") as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
+
     def Read_Excel():
         try:
             time.sleep(10)
@@ -74,8 +91,9 @@ class Read_file:
                                     print(log.Info("info"),"[",i+1,": address ] ",data_send["address"]);
                                     print(log.Info("info"),"[",i+1,": sold ] ",data_send["sold"]);
                                 else:
+                                    Read_file.add_product_to_json(data_send,Data.parth_error_lazada)
                                     print(log.Info("error"),status_detail)
-                                    return
+                                    break
                     if(Data.header_data[j]=="product_name"):
                         data_send["product_name"] = data_input;
                     if(Data.header_data[j]=="sale_price"):
@@ -93,7 +111,7 @@ class Read_file:
                         print(log.Info("info"),"[",i+1,": commission ] ",data_send["commission"]);
                         print(log.Info("info"),"[",i+1,": group ] ",data_send["group"]);
                         print(log.Info("info"),"[",i+1,": review ] ",data_send["review"]);
-                
+                    
         
                 print(log.Info("info")+"Read product [",i+1,"]")
                 if(Data.is_api and status_detail==200):
@@ -116,7 +134,7 @@ class Read_file:
             os.remove(Data.name_file_lazada)
         except FileNotFoundError as e:
             print(log.Info("info"),"Remove File",Data.name_file_lazada)
-            os.remove(Data.name_file)
+            os.remove(Data.name_file_lazada)
             print(log.Info("error"),e)
 
     def process_split(value):

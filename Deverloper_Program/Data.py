@@ -123,6 +123,8 @@ class Data:
         'ยานยนต์และรถจักรยานยนต์',
         "ตั๋วและบัตรกำนัน"
     ]
+    parth_error = path_file+"\error\\"
+    parth_error_lazada = parth_error+"error_lazada.json"
 
 
 
