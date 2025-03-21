@@ -13,6 +13,8 @@ class Data:
     "อุทัยธานี", "อุบลราชธานี", "บึงกาฬ"
     ]
 
+    token_user_lazada = "e7ad5dcedc004a94a8fa563b6268107a";
+
     path_file = os.getcwd();
     setting_insert = open(path_file+'\setting.txt',mode='r',encoding='utf-8');
     def setting(setting_insert):

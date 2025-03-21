@@ -6,7 +6,9 @@ from Read_file import Read_file as read_file
 from Show_log import ConsoleRedirector as show_log
 import os
 
-read_file.Read_Excel();
+data = api.promo_link_lazada("3880623562");
+
+print(data);
 
 
 

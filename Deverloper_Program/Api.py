@@ -2,7 +2,36 @@ import requests
 import json
 from Info import Info as log
 from Data import Data as dt
+import time
 class Api:
+    def promo_link_lazada(offer):
+        import requests
+
+        # ข้อมูล API
+        url = "https://api.lazada.sg/rest/marketing/offers/link/get"
+        params = {
+            "method": "getPromoLinkbyOfferId",
+            "offer_id": offer,  # เปลี่ยนเป็น Offer ID ที่คุณต้องการ
+            "api_token": dt.token_user_lazada,
+            "app_key": '105827',
+            "timestamp": int(time.time() * 1000)
+        }
+
+        try:
+            # ส่งคำขอ GET ไปยัง API
+            response = requests.get(url, params=params)
+            
+            # ตรวจสอบสถานะของคำขอ
+            if response.status_code == 200:
+                print("Response Data:", response.json())  # แสดงข้อมูลที่ได้ในรูปแบบ JSON
+            else:
+                print(f"Error: {response.status_code} - {response.text}")
+
+        except requests.exceptions.RequestException as e:
+            print(f"Request failed: {e}")
+
+
+
     def send_api_main(data):
         # main
         url_Api = dt.url_main
