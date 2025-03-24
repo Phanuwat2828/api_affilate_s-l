@@ -21,6 +21,7 @@ import requests
 import pyautogui
 import pyperclip
 
+
 def run_App_lazada():
     click.time_start()
     if not data.is_run:
@@ -76,13 +77,13 @@ def run_App_lazada():
                 print(log.Info("info") + "Process stopped by user.")
                 return
         
-        read_file.Read_Excel()
+        data_ = read_file.ReadExcelLazada();
+        api.SendInformationAPI(data=data_);
         data.is_run = False
     data.count_product = 0;
     data.product_total = 0;
     data.is_product = 0;
     data.is_run = False
-
 
 data.is_product = 1000;
 data.is_run = True;

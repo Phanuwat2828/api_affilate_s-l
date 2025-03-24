@@ -1,20 +1,21 @@
-import requests
+from Api import Api as api
+from Click import Click as click
+from Data import Data as data
+from Info import Info as log
+from Read_file import Read_file as read_file
+from Show_log import ConsoleRedirector as show_log
+import os
 
-url = "https://adsense.lazada.co.th/newOffer/link-convert.json"  # Replace with the correct endpoint
+data = api.promo_link_lazada("3880623562");
 
-# Payload with the given data
-payload = {
-    "jumpUrl": "https://pages.lazada.co.th/products/life-life-zinc-plus-vitamin-c-30-2-i5448717774-s23115859732.html?actualItemId=3880623562&actualSkuId=14866936442&winner_type=1",
-    "subIdTemplateKey": ""
-}
+print(data);
 
-# Send POST request
-response = requests.post(url, data=payload)
 
-# Check response status
-if response.status_code == 200:
-    print("Request succeeded!")
-    print(response.text)  # Output the response data (if any)
-else:
-    print(f"Request failed with status code {response.status_code}")
 
+# https://60c3-49-48-119-197.ngrok-free.app/
+# main_url=http://26.132.240.22:8081/0eea90b98ea1129c8f7c16af9bca09820d5564ac93678c9766000941f5444ade
+# key_main=5a3dec84301206e275f7ca7fa119796c8a5be05d100a2d23ba3a4f189876d03a
+# detail_url=http://26.132.240.22:8081/5564ac93678c9766000941f5444ade0eea90b98ea1129c8f7c16af9bca09820d
+# key_detail=5a3dec84301206e275f7ca7fa119796c8a5be05d100a2d23ba3a4f189876d03a
+# list = กรุงเทพ
+# 

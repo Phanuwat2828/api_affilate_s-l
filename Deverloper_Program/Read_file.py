@@ -6,6 +6,10 @@ from Data import Data
 import json
 import re
 from Api import Api as api
+from dotenv import load_dotenv
+from datetime import datetime
+load_dotenv()
+
 class Read_file:
 
 
@@ -283,5 +287,26 @@ class Read_file:
             os.remove(Data.name_file2+Read_file.file_shopee())
             print(log.Info("error"),e)
     
+    def ReadExcelLazada():
+        try :
 
+            time.sleep(5)
+            df = pd.read_excel(Data.name_file_lazada)
+
+            df.columns = df.columns.str.replace(" ", "_")
+            columns = [
+                "item_id", "product_name", "sale_price", "discounted_price",
+                "picture_url", "product_url", "brand", "maximum_commission_rate", "promo_short_link"
+            ]
+            df = df[columns]
+
+            timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+            new_filename = os.path.join("./success_file/", f"{timestamp}_success.xlsx")
+            os.rename(Data.name_file_lazada, new_filename)
+            print(log.Info("warning") + "อ่านไฟล์เรียบร้อย");
+        except Exception as error: 
+            print(log.Info("error") + error);
         
+        return df.to_dict(orient="records")
+
+

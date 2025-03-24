@@ -3,6 +3,10 @@ import json
 from Info import Info as log
 from Data import Data as dt
 import time
+import os
+from dotenv import load_dotenv
+from datetime import datetime
+load_dotenv()
 class Api:
     def promo_link_lazada(offer):
         import requests
@@ -76,6 +80,7 @@ class Api:
             return 0
 
     def api_detail_shopee(id_product,shop_id):
+
         url = "https://api.openchinaapi.com/v1/shopee/products/"+id_product+"/?shop_id="+shop_id+"&nation=th"
         payload={}
         print(url);
@@ -90,3 +95,22 @@ class Api:
         else:
             print(log.Info("error"),response.status_code);
             return 0
+    def SendInformationAPI(data):
+        if(dt.is_api):
+            header = {
+                "authorization":os.getenv("AUTHORIZATION_API")
+            }
+            data = {
+                "data":json.dumps(data)
+            }
+            try:
+                res = requests.post(url=os.getenv("URI_API_SERVER"),headers=header,data=data)
+                if(res.status_code == 200):
+                    print(log.Info("warning") + "ส่งสำเร็จ")
+                else:
+                    print(log.Info("error") + "ส่งไม่สำเร็จ"+" Status: ",res.status_code);
+                
+            except:pass
+        else:
+            print(log.Info("warning") + "ปิดโหมด API อยู่")
+        
