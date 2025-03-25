@@ -288,25 +288,26 @@ class Read_file:
             print(log.Info("error"),e)
     
     def ReadExcelLazada():
-        try :
-
-            time.sleep(5)
-            df = pd.read_excel(Data.name_file_lazada)
-
-            df.columns = df.columns.str.replace(" ", "_")
-            columns = [
-                "item_id", "product_name", "sale_price", "discounted_price",
-                "picture_url", "product_url", "brand", "maximum_commission_rate", "promo_short_link"
-            ]
-            df = df[columns]
-
-            timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-            new_filename = os.path.join("./success_file/", f"{timestamp}_success.xlsx")
-            os.rename(Data.name_file_lazada, new_filename)
-            print(log.Info("warning") + "อ่านไฟล์เรียบร้อย");
-        except Exception as error: 
-            print(log.Info("error") + error);
+        df = pd.DataFrame();
+        time.sleep(5)
+        df = pd.read_excel(Data.name_file_lazada)
         
+        df.columns = df.columns.str.replace(" ", "_")
+        columns = [
+            "item_id", "product_name", "sale_price", "discounted_price",
+            "picture_url", "product_url", "brand", "maximum_commission_rate", "promo_short_link"
+        ]
+        # ตรวจสอบว่าคอลัมน์ที่ต้องการมีอยู่จริง มิฉะนั้นจะเกิด KeyError
+        missing_columns = [col for col in columns if col not in df.columns]
+        if missing_columns:
+            raise KeyError(f"Missing columns: {missing_columns}")
+        
+        df = df[columns]
+
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        new_filename = os.path.join("./success_file/", f"{timestamp}_success.xlsx")
+        os.rename(Data.name_file_lazada, new_filename)
+        print(log.Info("warning") + "อ่านไฟล์เรียบร้อย");
         return df.to_dict(orient="records")
 
 

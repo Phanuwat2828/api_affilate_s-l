@@ -33,7 +33,7 @@ def run_App_lazada():
         return
     while(data.product_total<data.is_product):
         first = False;
-        while(data.count_product<200):
+        while(data.count_product<50):
             if not data.is_run:
                 print(log.Info("info") + "Process stopped by user.")
                 return
@@ -50,16 +50,16 @@ def run_App_lazada():
 
                 if(not status_click):
                     status_click = click.Click_component(data.product_image1_lazada,1,0.4)
-                
                 if(status_click):
                     data.count_product+=1;
                     data.product_total+=1;
-                if(data.count_product>=200 or data.product_total>=data.is_product):
+                if(data.count_product>=50 or data.product_total>=data.is_product):
                     break;
             print(log.Info("info")+"Excel Max[200]: Now ",data.count_product);
             print(log.Info("info")+"Product_Total Max[",data.is_product,"]:",data.product_total);
             if(data.product_total>=data.is_product):
                 break;
+        
         click.Click_component(data.get_link_lazada,2,0.6);
         if not data.is_run:
                 print(log.Info("info") + "Process stopped by user.")
@@ -76,10 +76,13 @@ def run_App_lazada():
         if not data.is_run:
                 print(log.Info("info") + "Process stopped by user.")
                 return
-        
+        time.sleep(14)        
         data_ = read_file.ReadExcelLazada();
         api.SendInformationAPI(data=data_);
-        data.is_run = False
+        data.count_product = 0;
+    
+
+
     data.count_product = 0;
     data.product_total = 0;
     data.is_product = 0;
@@ -88,3 +91,8 @@ def run_App_lazada():
 data.is_product = 1000;
 data.is_run = True;
 run_App_lazada();
+
+
+
+# data_ = read_file.ReadExcelLazada();
+# api.SendInformationAPI(data=data_);
